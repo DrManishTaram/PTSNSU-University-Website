@@ -1,0 +1,199 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Trophy, Award, Medal, Star, Filter, ArrowUpRight, GraduationCap, Users, Landmark, Cpu } from 'lucide-react';
+
+// Data Mock
+const achievements = [
+  {
+    id: 1,
+    category: 'Student',
+    title: "Won India's Biggest AI Hackathon",
+    description: "AI Club students Anukalp Dwivedi & Sourabh Majhee secured 2nd place among 26,000 participants, beating 32 IITs. Received investment offers from MNCs.",
+    date: "Jan 2025",
+    image: "/hackathon-winners.jpg",
+    icon: <Cpu size={20} />,
+    link: "/achievements/ai-hackathon"
+  },
+  {
+    id: 2,
+    category: 'University',
+    title: "NAAC 'A++' Grade Accreditation",
+    description: "Awarded the highest grade by the National Assessment and Accreditation Council for excellence in education and infrastructure.",
+    date: "Dec 2024",
+    image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1000&auto=format&fit=crop",
+    icon: <Landmark size={20} />
+  },
+  {
+    id: 3,
+    category: 'Professor',
+    title: "Dr. Sharma Published in 'Nature'",
+    description: "Dr. Anjali Sharma's groundbreaking research on renewable energy materials was featured in the prestigious Nature Journal.",
+    date: "Nov 2024",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1000&auto=format&fit=crop",
+    icon: <Users size={20} />
+  },
+  {
+    id: 4,
+    category: 'University',
+    title: "Best Emerging University Award",
+    description: "Recognized by the Ministry of Education as the fastest-growing state university in Central India.",
+    date: "Aug 2024",
+    image: "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1000&auto=format&fit=crop",
+    icon: <Trophy size={20} />
+  },
+  {
+    id: 5,
+    category: 'Student',
+    title: "National Sports Championship",
+    description: "Rohan Singh represented the university and won the Gold Medal in Archery at the All India Inter-University Meet.",
+    date: "Oct 2024",
+    image: "https://images.unsplash.com/photo-1620310228384-7557760c6d26?q=80&w=1000&auto=format&fit=crop",
+    icon: <Medal size={20} />
+  },
+  {
+    id: 6,
+    category: 'Professor',
+    title: "Lifetime Achievement Award",
+    description: "Prof. R.K. Mishra received the Lifetime Achievement Award from the State Science Congress for his contribution to Botany.",
+    date: "Sep 2024",
+    image: "https://images.unsplash.com/photo-1544526226-d4568090ffb8?q=80&w=1000&auto=format&fit=crop",
+    icon: <Award size={20} />
+  }
+];
+
+const Achievements: React.FC = () => {
+    const [filter, setFilter] = useState('All');
+
+    const filteredItems = filter === 'All' 
+        ? achievements 
+        : achievements.filter(item => item.category === filter);
+
+  return (
+    <section className="py-24 bg-gradient-to-b from-stone-50 to-white relative overflow-hidden" id="achievements">
+      
+      {/* Decorative Background */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-turmeric-50 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+      
+      <div className="container mx-auto px-4 md:px-8 relative z-10">
+        
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div className="max-w-2xl">
+                <div className="flex items-center gap-2 text-turmeric-600 font-bold uppercase tracking-widest text-sm mb-3">
+                    <Star size={16} fill="currentColor" />
+                    <span>Achievements & Recognitions</span>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-serif font-bold text-earth-900 leading-tight">
+                    Our <span className="text-turmeric-600 underline decoration-turmeric-200 underline-offset-4">Achievements</span> & Awards
+                </h2>
+                <p className="mt-4 text-gray-600 text-lg">
+                    Recognizing the outstanding milestones of our institution, faculty, and students.
+                </p>
+            </div>
+
+            {/* Stats Banner */}
+            <div className="flex gap-8 bg-white p-6 rounded-2xl shadow-xl border border-turmeric-100">
+                <div className="text-center">
+                    <div className="text-3xl font-bold text-earth-900">50+</div>
+                    <div className="text-xs text-gray-500 uppercase tracking-wide font-medium">Awards</div>
+                </div>
+                <div className="w-px bg-gray-200"></div>
+                <div className="text-center">
+                    <div className="text-3xl font-bold text-earth-900">120+</div>
+                    <div className="text-xs text-gray-500 uppercase tracking-wide font-medium">Patents</div>
+                </div>
+                <div className="w-px bg-gray-200"></div>
+                <div className="text-center">
+                    <div className="text-3xl font-bold text-earth-900">15k+</div>
+                    <div className="text-xs text-gray-500 uppercase tracking-wide font-medium">Alumni</div>
+                </div>
+            </div>
+        </div>
+
+        {/* Filter Tabs */}
+        <div className="flex items-center gap-2 mb-10 overflow-x-auto pb-4 no-scrollbar">
+            {['All', 'University', 'Student', 'Professor'].map((cat) => (
+                <button
+                    key={cat}
+                    onClick={() => setFilter(cat)}
+                    className={`px-6 py-2.5 rounded-full font-medium text-sm transition-all duration-300 border whitespace-nowrap ${
+                        filter === cat 
+                        ? 'bg-earth-900 text-white border-earth-900 shadow-md transform scale-105' 
+                        : 'bg-white text-gray-500 border-gray-200 hover:border-turmeric-400 hover:text-turmeric-600'
+                    }`}
+                >
+                    {cat} Achievements
+                </button>
+            ))}
+        </div>
+
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredItems.map((item) => {
+                const CardWrapper = item.link ? Link : 'div';
+                const cardProps = item.link ? { to: item.link } : {};
+                
+                return (
+                <CardWrapper 
+                    key={item.id} 
+                    {...cardProps}
+                    className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-turmeric-200 shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col h-full cursor-pointer"
+                >
+                    {/* Image Area */}
+                    <div className="h-60 overflow-hidden relative">
+                        <img 
+                            src={item.image} 
+                            alt={item.title} 
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+                        
+                        {/* Date Badge */}
+                        <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg text-xs font-bold text-earth-900 shadow-sm">
+                            {item.date}
+                        </div>
+
+                        {/* Category Badge */}
+                        <div className={`absolute bottom-4 right-4 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-sm flex items-center gap-1.5
+                            ${item.category === 'University' ? 'bg-turmeric-600' : 
+                              item.category === 'Student' ? 'bg-blue-600' : 'bg-purple-600'}
+                        `}>
+                            {item.icon}
+                            {item.category}
+                        </div>
+                    </div>
+
+                    {/* Content Area */}
+                    <div className="p-6 md:p-8 flex flex-col flex-grow">
+                        <h3 className="text-xl font-serif font-bold text-earth-900 mb-3 group-hover:text-turmeric-600 transition-colors">
+                            {item.title}
+                        </h3>
+                        <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-grow">
+                            {item.description}
+                        </p>
+                        
+                        <div className="pt-6 border-t border-gray-100 flex items-center justify-between">
+                            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Read Story</span>
+                            <div className="w-10 h-10 rounded-full bg-stone-50 text-earth-900 flex items-center justify-center group-hover:bg-turmeric-500 group-hover:text-white transition-all duration-300">
+                                <ArrowUpRight size={18} />
+                            </div>
+                        </div>
+                    </div>
+                </CardWrapper>
+            )})}
+        </div>
+
+        {/* View All Button */}
+        <div className="mt-16 text-center">
+            <button className="inline-flex items-center gap-2 px-8 py-3 bg-white border-2 border-turmeric-500 text-turmeric-700 font-bold rounded-full hover:bg-turmeric-500 hover:text-white transition-all duration-300 shadow-sm hover:shadow-lg uppercase tracking-wider text-sm">
+                View All Achievements
+                <ArrowUpRight size={16} />
+            </button>
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
+export default Achievements;
