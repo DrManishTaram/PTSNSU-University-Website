@@ -6,6 +6,26 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [showSkip, setShowSkip] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
+  const [startProgress, setStartProgress] = useState(false);
+
+  useEffect(() => {
+    // Add 3-second delay before showing loader
+    const delayTimer = setTimeout(() => {
+      setShowLoader(true);
+    }, 3000);
+
+    return () => clearTimeout(delayTimer);
+  }, []);
+
+  useEffect(() => {
+    // Add 3-second delay before starting progress bar
+    const progressDelayTimer = setTimeout(() => {
+      setStartProgress(true);
+    }, 3000);
+
+    return () => clearTimeout(progressDelayTimer);
+  }, []);
 
   useEffect(() => {
     // Check if page is already loaded
@@ -18,10 +38,10 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   }, []);
 
   useEffect(() => {
-    // Show skip button after 4 seconds
+    // Show skip button after 7 seconds (3 second delay + 4 seconds)
     const skipTimer = setTimeout(() => {
       setShowSkip(true);
-    }, 4000);
+    }, 7000);
 
     return () => clearTimeout(skipTimer);
   }, []);
@@ -29,7 +49,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   useEffect(() => {
     let interval: any;
 
-    if (isExiting) return;
+    if (isExiting || !startProgress) return;
 
     if (isPageLoaded) {
       // Fast finish if loaded
@@ -54,7 +74,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
     }
 
     return () => clearInterval(interval);
-  }, [isPageLoaded, isExiting]);
+  }, [isPageLoaded, isExiting, startProgress]);
 
   const handleComplete = () => {
     setIsExiting(true);
@@ -64,7 +84,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   };
 
   return (
-    <div className={`fixed inset-0 z-[100] bg-[#0f172a] flex items-center justify-center overflow-hidden transition-opacity duration-700 ${isExiting ? 'opacity-0' : 'opacity-100'}`}>
+    <div className={`fixed inset-0 z-[100] bg-[#0f172a] flex items-center justify-center overflow-hidden transition-opacity duration-700 ${isExiting ? 'opacity-0' : 'opacity-100'} ${showLoader ? 'visible' : 'invisible'}`}>
       
       {/* Dynamic Background */}
       <div className="absolute inset-0 overflow-hidden">
@@ -115,10 +135,10 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
         {/* Cinematic Text Reveal */}
         <div className="text-center space-y-3 relative">
           <h1 className="text-4xl md:text-6xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400 tracking-wide drop-shadow-2xl">
-            <span className="text-turmeric-500">P</span>t. <span className="text-turmeric-500">S</span>.N. <span className="text-turmeric-500">S</span>hukla
+            <span className="text-blue-500">P</span>andit <span className="text-blue-500">S</span>hambhunath <span className="text-blue-500">S</span>hukla <span className="text-blue-500">U</span>niversity
           </h1>
           <p className="text-blue-200 uppercase tracking-[0.3em] text-xs md:text-sm font-medium animate-fade-in opacity-80">
-            University, Shahdol • Est. 2016
+            Shahdol (M.P) • Established in 2017
           </p>
         </div>
 
