@@ -13,41 +13,41 @@ const InitiativeCard: React.FC<{
 }> = ({ title, subtitle, description, icon, color, gradient, link }) => {
   const CardContent = () => (
   <div className="group relative overflow-hidden bg-white rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl border border-gray-100">
-    {/* Background Gradient on Hover */}
-    <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+    {/* Background Gradient - Now Default */}
+    <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-100`}></div>
     
     <div className="relative p-8 h-full flex flex-col z-10">
       <div className="flex items-start justify-between mb-6">
         <div className={`w-16 h-16 rounded-2xl ${color} text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-500`}>
            {icon}
         </div>
-        <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-white/20 transition-colors">
-            <ArrowRight size={20} className="text-gray-400 group-hover:text-white transition-colors" />
+        <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
+            <ArrowRight size={20} className="text-white transition-colors" />
         </div>
       </div>
 
       <div className="mb-4">
-          <span className="text-xs font-bold tracking-widest uppercase text-gray-400 group-hover:text-white/80 transition-colors">{subtitle}</span>
-          <h3 className="text-2xl font-serif font-bold text-earth-900 mt-1 group-hover:text-white transition-colors leading-tight">
+          <span className="text-xs font-bold tracking-widest uppercase text-white/80">{subtitle}</span>
+          <h3 className="text-2xl font-serif font-bold text-white mt-1 leading-tight">
             {title}
           </h3>
       </div>
 
-      <p className="text-gray-500 leading-relaxed mb-6 group-hover:text-white/90 transition-colors">
+      <p className="text-white/90 leading-relaxed mb-6">
         {description}
       </p>
 
       {/* Decorative 'App' elements for visual flair */}
-      <div className="mt-auto pt-6 border-t border-gray-100 group-hover:border-white/10">
+      <div className="mt-auto pt-6 border-t border-white/20">
          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-green-500"></span>
-            <span className="text-xs font-bold text-gray-400 group-hover:text-white/80 uppercase tracking-widest">Active Initiative</span>
+            <span className="w-2 h-2 rounded-full bg-white"></span>
+            <span className="text-xs font-bold text-white/80 uppercase tracking-widest">Active Initiative</span>
          </div>
       </div>
     </div>
 
     {/* Abstract Shapes */}
-    <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-gray-50 rounded-full group-hover:bg-white/10 transition-colors duration-500"></div>
+    <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/5 rounded-full"></div>
   </div>
   );
 

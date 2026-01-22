@@ -51,7 +51,7 @@ const Chatbot: React.FC = () => {
   const generateResponse = (query: string) => {
     const q = query.toLowerCase();
     
-    if (q.includes('hello') || q.includes('hi')) return "Hello! Welcome to Pt. S.N. Shukla University. I'm Medha Bot. What would you like to know?";
+    if (q.includes('hello') || q.includes('hi')) return "Hello! Welcome to Pandit Shambhunath Shukla University. I'm Medha Bot. What would you like to know?";
     if (q.includes('admission') || q.includes('apply')) return "Admissions for the 2025-26 academic session are currently OPEN. You can apply online through the 'Admissions' tab on our website. Would you like the link?";
     if (q.includes('fee') || q.includes('cost')) return "The fee structure varies by course. Generally, B.A./B.Com starts around ₹5,000/yr and B.Tech/MBA is higher. Please visit the 'Fee Structure' page under Admissions for the PDF.";
     if (q.includes('exam') || q.includes('schedule')) return "Semester exams typically begin in May and December. The latest Entrance Exam for 2025 is scheduled for June 15th.";

@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
                 <img src="/logo.jpg" alt="University Logo" className="w-full h-full object-contain rounded-full" />
               </div>
               <div>
-                <h3 className="font-serif font-bold text-xl leading-none text-turmeric-400">Pt. S.N. Shukla</h3>
+                <h3 className="font-serif font-bold text-xl leading-none text-turmeric-400">Pandit Shambhunath Shukla University</h3>
                 <h4 className="font-sans font-bold text-sm tracking-widest text-white/90 mt-1 uppercase">University</h4>
               </div>
             </div>
@@ -128,7 +128,7 @@ const Footer: React.FC = () => {
                </a>
              </div>
              <p className="text-[10px] text-turmeric-500/60 mt-4 text-right">
-                Pandit S.N. Shukla University Campus
+                Pandit Shambhunath Shukla University Campus
              </p>
           </div>
         </div>
@@ -136,7 +136,7 @@ const Footer: React.FC = () => {
         {/* Footer Bottom */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-4">
           <p className="font-medium tracking-wide">
-            &copy; {new Date().getFullYear()} <span className="text-turmeric-500">Pt. S.N. Shukla University</span>. All Rights Reserved.
+            &copy; {new Date().getFullYear()} <span className="text-turmeric-500">Pandit Shambhunath Shukla University</span>. All Rights Reserved.
           </p>
           <div className="flex items-center gap-6">
             <a href="#" className="hover:text-turmeric-400 transition-colors">Privacy Policy</a>

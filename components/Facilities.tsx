@@ -70,16 +70,16 @@ const Facilities: React.FC = () => {
       <div className="absolute top-0 left-0 w-full h-[60%] bg-stone-50 skew-y-3 transform origin-top-left -z-10"></div>
       <div className="hidden lg:block absolute right-0 top-1/4 w-64 h-64 bg-turmeric-100/50 rounded-full blur-3xl -z-10"></div>
 
-      <div className="container mx-auto px-4 md:px-8">
+      <div className="container mx-auto px-2 sm:px-4 md:px-8">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20 animate-fade-up">
-          <h4 className="text-turmeric-600 font-bold uppercase tracking-[0.2em] text-sm mb-3">Campus Infrastructure</h4>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-earth-900 mb-6 relative inline-block">
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 md:mb-20 animate-fade-up">
+          <h4 className="text-turmeric-600 font-bold uppercase tracking-[0.2em] text-xs sm:text-sm mb-2 sm:mb-3">Campus Infrastructure</h4>
+          <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-earth-900 mb-4 sm:mb-6 relative inline-block">
             Our World-Class Facilities
-            <span className="absolute -bottom-2 left-1/4 right-1/4 h-1 bg-gradient-to-r from-transparent via-turmeric-500 to-transparent"></span>
+            <span className="absolute -bottom-1 sm:-bottom-2 left-1/4 right-1/4 h-0.5 sm:h-1 bg-gradient-to-r from-transparent via-turmeric-500 to-transparent"></span>
           </h2>
-          <p className="text-lg text-gray-600 leading-relaxed">
+          <p className="text-xs sm:text-lg text-gray-600 leading-relaxed">
             We provide an environment where students can thrive academically, socially, and physically with state-of-the-art infrastructure.
           </p>
         </div>
@@ -96,8 +96,9 @@ const Facilities: React.FC = () => {
                 className="
                     flex flex-row lg:flex-col 
                     overflow-x-auto lg:overflow-visible 
-                    p-2 md:p-8 
-                    gap-2 space-y-0 lg:space-y-2 
+                    p-2 sm:p-3 md:p-8 
+                    gap-1.5 sm:gap-2 md:gap-3
+                    space-y-0 lg:space-y-2 
                     relative z-10 
                     no-scrollbar
                 "
@@ -110,8 +111,8 @@ const Facilities: React.FC = () => {
                   onClick={() => setActiveTab(index)}
                   className={`
                     group flex-shrink-0 lg:flex-shrink flex items-center justify-center lg:justify-between 
-                    p-3 md:p-5 rounded-xl transition-all duration-500 border border-transparent 
-                    min-w-[160px] sm:w-auto lg:w-full animate-flip-up
+                    p-2 sm:p-3 md:p-5 rounded-xl transition-all duration-500 border border-transparent 
+                    min-w-[140px] sm:w-auto lg:w-full animate-flip-up
                     ${
                     activeTab === index 
                       ? 'bg-gradient-to-r from-turmeric-600 to-turmeric-500 text-white shadow-lg lg:scale-100 lg:translate-x-4' 
@@ -119,35 +120,35 @@ const Facilities: React.FC = () => {
                   }`}
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className="flex items-center gap-3 md:gap-4 w-full lg:w-auto">
-                    <span className={`p-1.5 md:p-2 rounded-lg transition-colors duration-300 ${activeTab === index ? 'bg-white/20' : 'bg-transparent group-hover:bg-white/5'}`}>
-                        {item.icon}
+                  <div className="flex items-center gap-2 sm:gap-3 md:gap-4 w-full lg:w-auto">
+                    <span className={`p-1 sm:p-1.5 md:p-2 rounded-lg transition-colors duration-300 ${activeTab === index ? 'bg-white/20' : 'bg-transparent group-hover:bg-white/5'}`}>
+                        {React.cloneElement(item.icon as React.ReactElement, { size: 18 })}
                     </span>
                     <div className="text-left flex-1 lg:flex-none">
-                        <h3 className={`font-bold text-sm md:text-lg leading-tight ${activeTab === index ? 'text-white' : 'text-gray-300 group-hover:text-white'}`}>
+                        <h3 className={`font-bold text-xs sm:text-base md:text-lg leading-tight ${activeTab === index ? 'text-white' : 'text-gray-300 group-hover:text-white'}`}>
                             {item.title}
                         </h3>
-                        <p className={`text-[10px] md:text-xs font-medium mt-0.5 lg:block ${activeTab === index ? 'text-turmeric-100' : 'hidden'}`}>
+                        <p className={`text-[9px] sm:text-xs font-medium mt-0.5 lg:block ${activeTab === index ? 'text-turmeric-100' : 'hidden'}`}>
                             {item.subtitle}
                         </p>
                     </div>
                   </div>
-                  {activeTab === index && <ChevronRight size={18} className="animate-slide-in-right hidden lg:block" />}
+                  {activeTab === index && <ChevronRight size={16} className="animate-slide-in-right hidden lg:block" />}
                 </button>
               ))}
             </div>
 
             {/* Bottom Contact/More Info - Desktop Only */}
-            <div className="mt-auto md:mt-8 p-4 md:p-0 md:pt-8 md:px-8 border-t border-white/10 text-center lg:text-left relative z-10 hidden lg:block">
-                <p className="text-sm text-gray-400 mb-2">Want to see more?</p>
+            <div className="mt-auto md:mt-8 p-3 sm:p-4 md:p-0 md:pt-8 md:px-8 border-t border-white/10 text-center lg:text-left relative z-10 hidden lg:block">
+                <p className="text-xs sm:text-sm text-gray-400 mb-2">Want to see more?</p>
                 <a href="/virtual-tour" className="text-turmeric-400 font-bold hover:text-white transition-colors uppercase tracking-wider text-xs flex items-center gap-2">
-                    Take a Virtual Tour <ArrowRight size={14} />
+                    Take a Virtual Tour <ArrowRight size={12} className="sm:size-[14px]" />
                 </a>
             </div>
           </div>
 
           {/* Image & Detail Showcase */}
-          <div className="w-full lg:w-[65%] relative bg-gray-50 lg:bg-gray-900 group min-h-[450px] lg:min-h-auto order-2 flex flex-col lg:block">
+          <div className="w-full lg:w-[65%] relative bg-gray-50 lg:bg-gray-900 group min-h-[350px] sm:min-h-[400px] md:min-h-[450px] lg:min-h-auto order-2 flex flex-col lg:block">
              {facilitiesData.map((item, index) => (
                <div 
                   key={item.id}
@@ -157,7 +158,7 @@ const Facilities: React.FC = () => {
                   `}
                >
                  {/* Main Image */}
-                 <div className="relative h-[250px] lg:h-full w-full overflow-hidden animate-zoom-in">
+                 <div className="relative h-[200px] sm:h-[250px] lg:h-full w-full overflow-hidden animate-zoom-in">
                     <img 
                        src={item.image} 
                        alt={item.title} 
@@ -166,38 +167,38 @@ const Facilities: React.FC = () => {
                     {/* Gradient Overlay - Desktop Only */}
                     <div className="hidden lg:block absolute inset-0 bg-gradient-to-t from-earth-900 via-earth-900/80 md:via-earth-900/60 to-transparent"></div>
                     {/* Gradient Overlay - Mobile Only (Bottom Fade) */}
-                    <div className="lg:hidden absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white to-transparent"></div>
+                    <div className="lg:hidden absolute bottom-0 left-0 w-full h-20 sm:h-24 bg-gradient-to-t from-white to-transparent"></div>
                  </div>
                  
                  {/* Content Container */}
-                 <div className="relative lg:absolute lg:bottom-0 lg:left-0 w-full p-6 lg:p-16 text-earth-900 lg:text-white bg-white lg:bg-transparent flex-grow">
-                    <div className="flex items-center gap-2 text-turmeric-600 lg:text-turmeric-400 font-bold uppercase tracking-wider text-xs lg:text-sm mb-3">
-                        <span className="w-8 h-0.5 bg-turmeric-500"></span>
+                 <div className="relative lg:absolute lg:bottom-0 lg:left-0 w-full p-4 sm:p-6 lg:p-16 text-earth-900 lg:text-white bg-white lg:bg-transparent flex-grow">
+                    <div className="flex items-center gap-2 text-turmeric-600 lg:text-turmeric-400 font-bold uppercase tracking-wider text-xs sm:text-sm mb-2 sm:mb-3">
+                        <span className="w-6 sm:w-8 h-0.5 bg-turmeric-500"></span>
                         {item.subtitle}
                     </div>
                     
-                    <h3 className="text-3xl lg:text-5xl font-serif font-bold mb-4 leading-tight animate-slide-down">
+                    <h3 className="text-2xl sm:text-3xl lg:text-5xl font-serif font-bold mb-3 sm:mb-4 lg:mb-4 leading-tight animate-slide-down">
                         {item.title}
                     </h3>
 
-                    <p className="text-gray-600 lg:text-gray-200 text-base lg:text-lg mb-8 leading-relaxed max-w-2xl opacity-90 lg:line-clamp-none">
+                    <p className="text-gray-600 lg:text-gray-200 text-xs sm:text-base lg:text-lg mb-4 sm:mb-6 lg:mb-8 leading-relaxed max-w-2xl opacity-90 lg:line-clamp-none">
                       {item.description}
                     </p>
 
                     {/* Stats/Features Row */}
-                    <div className="grid grid-cols-3 gap-3 border-t border-gray-100 lg:border-white/20 pt-6">
+                    <div className="grid grid-cols-3 gap-2 sm:gap-3 border-t border-gray-100 lg:border-white/20 pt-3 sm:pt-4 lg:pt-6">
                         {item.stats.map((stat, idx) => (
                             <div key={idx} className="text-center lg:text-left">
-                                <span className="block text-earth-800 lg:text-white font-bold text-xs lg:text-base bg-gray-50 lg:bg-transparent rounded-lg px-2 py-2 lg:p-0 border border-gray-100 lg:border-none h-full flex items-center justify-center lg:justify-start">
+                                <span className="block text-earth-800 lg:text-white font-bold text-[10px] sm:text-xs lg:text-base bg-gray-50 lg:bg-transparent rounded-lg px-2 py-1.5 sm:py-2 lg:p-0 border border-gray-100 lg:border-none h-full flex items-center justify-center lg:justify-start">
                                     {stat}
                                 </span>
                             </div>
                         ))}
                     </div>
 
-                    <div className="mt-8 pt-6 border-t border-gray-100 lg:hidden text-center">
-                        <button className="text-turmeric-600 font-bold items-center justify-center gap-2 inline-flex text-sm uppercase tracking-wide">
-                            View More Details <ArrowRight size={16} />
+                    <div className="mt-4 sm:mt-6 lg:mt-8 pt-3 sm:pt-4 lg:pt-6 border-t border-gray-100 lg:hidden text-center">
+                        <button className="text-turmeric-600 font-bold items-center justify-center gap-2 inline-flex text-xs sm:text-sm uppercase tracking-wide">
+                            View More Details <ArrowRight size={14} className="sm:size-[16px]" />
                         </button>
                     </div>
                  </div>

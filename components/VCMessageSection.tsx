@@ -58,12 +58,12 @@ const VCMessageSection: React.FC = () => {
             <div className="relative">
               <Quote className="absolute -top-4 -left-6 text-turmeric-100 w-16 h-16 -z-10" />
               <p className="text-lg md:text-xl text-earth-800 leading-relaxed italic font-medium">
-                "We are dedicated to empowering our youth with skills that bridge the gap between tradition and modernity. At Pt. S.N. Shukla University, we don't just educate; we cultivate the leaders of tomorrow."
+                "We are dedicated to empowering our youth with skills that bridge the gap between tradition and modernity. At Pandit Shambhunath Shukla University, we don't just educate; we cultivate the leaders of tomorrow."
               </p>
             </div>
 
             <p className="text-gray-600 leading-relaxed">
-              Pandit S.N. Shukla University stands as a beacon of knowledge, committed to academic excellence, inclusive growth, and research-driven development. Our curriculum honors our rich heritage while embracing global standards.
+              Pandit Shambhunath Shukla University stands as a beacon of knowledge, committed to academic excellence, inclusive growth, and research-driven development. Our curriculum honors our rich heritage while embracing global standards.
             </p>
 
             <div className="pt-4 flex flex-wrap gap-4">

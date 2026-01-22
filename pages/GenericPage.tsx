@@ -76,7 +76,7 @@ const GenericPage: React.FC<GenericPageProps> = ({ title, category = "Pages", ch
             <div className="bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-gray-100 min-h-[400px]">
               {children ? children : (
                 <div className="space-y-6 text-gray-600 leading-relaxed">
-                  <p className="text-lg text-earth-800 font-medium">Welcome to the {title} page of Pandit S.N. Shukla University.</p>
+                  <p className="text-lg text-earth-800 font-medium">Welcome to the {title} page of Pandit Shambhunath Shukla University.</p>
                   
                   <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 

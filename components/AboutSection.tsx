@@ -47,12 +47,12 @@ const AboutSection: React.FC = () => {
                 About the University
               </span>
               <h2 className="text-4xl lg:text-5xl font-serif font-bold text-white leading-[1.15]">
-                About <span className="text-transparent bg-clip-text bg-gradient-to-r from-turmeric-400 to-yellow-200">Pt. S.N. Shukla University</span>
+                About <span className="text-transparent bg-clip-text bg-gradient-to-r from-turmeric-400 to-yellow-200">Pandit Shambhunath Shukla University</span>
               </h2>
             </div>
             
             <p className="text-lg text-gray-300 leading-relaxed font-light">
-              Pandit S.N. Shukla University, Shahdol is not just an institution; it is a movement towards educational emancipation. Established to cater to the aspirations of the tribal-dominated region, we blend traditional wisdom with modern scientific temper.
+              Pandit Shambhunath Shukla University, Shahdol is not just an institution; it is a movement towards educational emancipation. Established to cater to the aspirations of the tribal-dominated region, we blend traditional wisdom with modern scientific temper.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

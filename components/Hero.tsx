@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight, PlayCircle } from 'lucide-react';
+import { ArrowRight, PlayCircle } from 'lucide-react';
 
 const slides = [
   {
@@ -67,7 +67,7 @@ const Hero: React.FC = () => {
       style={{
         height: `calc(100vh - ${headerHeight + 60}px)`,
         maxHeight: `calc(100vh - ${headerHeight + 60}px)`,
-        minHeight: '300px',
+        minHeight: isMobileViewport ? '280px' : '300px',
         backgroundColor: 'transparent'
       }}
     >
@@ -88,25 +88,25 @@ const Hero: React.FC = () => {
         </div>
       </div>
       {/* Product card: centered, use slide image as full background inside the rounded card and place hero text over it on the left */}
-      <div className="absolute inset-0 flex items-center justify-center px-4">
+      <div className="absolute inset-0 flex items-center justify-center px-2 sm:px-3 md:px-4">
         <div
           key={current}
-          className="w-full max-w-7xl mx-auto h-[62vh] md:h-[56vh] rounded-3xl shadow-2xl overflow-hidden relative"
+          className="w-full h-[90%] sm:h-[85%] md:h-[62vh] rounded-2xl sm:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden relative"
           style={{
             backgroundColor: '#f0f0f0',
-            padding: '5px',
+            padding: '3px',
             boxSizing: 'border-box',
-            border: '5px solid #0099ff',
+            border: '3px sm:border-4 md:border-5 solid #0099ff',
           }}
         >
           {/* Inner container for overlays - respects the padding and rounded corners */}
           <div 
-            className="absolute inset-0 rounded-[calc(1.5rem-2px)] overflow-hidden"
+            className="absolute inset-0 rounded-[calc(1rem-2px)] sm:rounded-[calc(1.25rem-2px)] md:rounded-[calc(1.5rem-2px)] overflow-hidden"
             style={{
-              top: '5px',
-              left: '5px',
-              right: '5px',
-              bottom: '5px',
+              top: '3px',
+              left: '3px',
+              right: '3px',
+              bottom: '3px',
               backgroundImage: `url('${slides[current].image}')`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
@@ -122,65 +122,50 @@ const Hero: React.FC = () => {
           {/* Left content placed over the background image - increased safe padding and responsive scaling to avoid cropping */}
           <div className="relative z-10 w-full h-full flex items-center">
             {/* Add larger left padding so text never reaches curved edges; allow content to wrap and scale using clamp() */}
-            <div className="md:w-1/2 w-full px-8 md:px-20 py-6 box-border">
-              <div className="text-turmeric-400 font-bold uppercase tracking-widest mb-4 inline-block bg-black/30 px-3 py-1 rounded" style={{fontSize: 'clamp(0.65rem, 1.5vw, 0.7rem)'}}>EST. 2016</div>
+            <div className="w-full px-4 sm:px-6 md:px-8 lg:px-20 py-4 sm:py-5 md:py-6 box-border md:w-1/2">
+              <div className="text-turmeric-400 font-bold uppercase tracking-widest mb-2 sm:mb-3 md:mb-4 inline-block bg-black/30 px-2 sm:px-3 py-0.5 sm:py-1 rounded" style={{fontSize: 'clamp(0.55rem, 1.2vw, 0.7rem)'}}>EST. 2016</div>
 
               {/* Responsive heading: reduced sizes by 20% to avoid cropping; constrained maxWidth so it wraps before hitting rounded corners */}
               <h1
                 style={{
-                  fontSize: 'clamp(1.12rem, 3.2vw, 2.56rem)',
+                  fontSize: 'clamp(0.95rem, 2.5vw, 2.56rem)',
                   lineHeight: 1.03,
                   wordBreak: 'break-word',
-                  maxWidth: '72%'
+                  maxWidth: '90%'
                 }}
-                className="text-white font-serif font-extrabold mt-4 mb-4"
+                className="text-white font-serif font-extrabold mt-2 sm:mt-3 md:mt-4 mb-2 sm:mb-3 md:mb-4"
               >
                 {slides[current].title}
               </h1>
 
-              <p className="text-gray-300 max-w-2xl mb-6 break-words" style={{fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)'}}>{slides[current].subtitle}</p>
+              <p className="text-gray-300 max-w-2xl mb-3 sm:mb-4 md:mb-6 break-words" style={{fontSize: 'clamp(0.7rem, 1.4vw, 0.95rem)'}}>{slides[current].subtitle}</p>
 
-              <div className="flex gap-4 flex-wrap items-center max-w-full" style={{overflow: 'visible'}}>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-full font-semibold" style={{fontSize: 'clamp(0.75rem, 1.2vw, 0.85rem)'}}>Discover More</button>
-                <button className="border border-white/30 text-white px-2.5 py-1.5 rounded-full" style={{fontSize: 'clamp(0.75rem, 1.2vw, 0.85rem)'}}>Virtual Tour</button>
+              <div className="flex gap-2 sm:gap-3 md:gap-4 flex-wrap items-center max-w-full" style={{overflow: 'visible'}}>
+                <button className="bg-blue-600 hover:bg-blue-700 text-white px-2.5 sm:px-3 md:px-3 py-1 sm:py-1.5 md:py-1.5 rounded-full font-semibold" style={{fontSize: 'clamp(0.65rem, 1vw, 0.85rem)'}}>Discover More</button>
+                <button className="border border-white/30 text-white px-2 sm:px-2.5 md:px-2.5 py-1 sm:py-1.5 md:py-1.5 rounded-full" style={{fontSize: 'clamp(0.65rem, 1vw, 0.85rem)'}}>Virtual Tour</button>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Side Navigation Arrows: vertically centered beside the hero card */}
-      <button
-        onClick={prevSlide}
-        aria-label="Previous slide"
-        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-40 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-md transition-transform duration-200 w-10 h-10 md:w-12 md:h-12"
-      >
-        <ChevronLeft size={18} className="text-white" />
-      </button>
+      {/* Side Navigation Arrows: REMOVED - Using dot indicators instead */}
 
-      <button
-        onClick={nextSlide}
-        aria-label="Next slide"
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-40 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-md transition-transform duration-200 w-10 h-10 md:w-12 md:h-12"
-      >
-        <ChevronRight size={18} className="text-white" />
-      </button>
-
-      {/* Dot Indicators */}
-      <div className="absolute left-1/2 -translate-x-1/2 z-30 flex gap-2 items-center justify-center" style={{ bottom: '8px' }}>
+      {/* Dot Indicators - visible on all screens, prominent and interactive */}
+      <div className="absolute left-1/2 -translate-x-1/2 z-30 flex gap-2 sm:gap-2.5 md:gap-3 items-center justify-center" style={{ bottom: isMobileViewport ? '16px' : '20px' }}>
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrent(index)}
             aria-label={`Go to slide ${index + 1}`}
-            className={`transition-all duration-300 rounded-full ${
+            className={`transition-all duration-300 rounded-full hover:opacity-100 ${
               index === current
-                ? 'w-3 h-3 md:w-4 md:h-4'
-                : 'w-2 h-2 md:w-3 md:h-3 hover:opacity-80'
+                ? 'bg-white shadow-lg'
+                : 'bg-white/60 hover:bg-white/80'
             }`}
             style={{
-              backgroundColor: 'white',
-              opacity: index === current ? 1 : 0.6
+              width: index === current ? 'clamp(24px, 4vw, 32px)' : 'clamp(10px, 2vw, 14px)',
+              height: index === current ? 'clamp(10px, 1.5vw, 14px)' : 'clamp(8px, 1.2vw, 10px)',
             }}
           />
         ))}

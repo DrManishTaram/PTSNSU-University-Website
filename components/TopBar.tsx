@@ -92,21 +92,24 @@ const TopBar: React.FC = () => {
   };
 
   return (
-    <div id="topbar" className="relative bg-[#fefefe] text-gray-800 text-sm block overflow-hidden h-auto md:h-12 font-medium z-[60] shadow-[0_15px_35px_-5px_rgba(0,0,0,0.25)] border-b border-gray-100">
-      <div className="container mx-auto px-4 lg:px-6 xl:max-w-[95%] flex h-full justify-between items-center relative py-1 md:py-0">
+    <div id="topbar" className="relative bg-white text-gray-800 text-xs sm:text-sm block overflow-hidden h-auto md:h-12 font-medium z-[60] shadow-[0_15px_35px_-5px_rgba(0,0,0,0.25)] border-b border-gray-100 hidden md:block">
+      <div className="container mx-auto px-2 sm:px-4 lg:px-6 xl:max-w-[95%] flex h-full justify-between items-center relative py-1.5 sm:py-2 md:py-0">
         
-        {/* Dynamic Skewed Background (Turmeric/Gold Theme) */}
-        {/* Mobile: Full width to showcase banner. Desktop: Skewed */}
-        <div className="absolute top-0 left-0 h-full w-full md:w-[50%] lg:w-[45%] bg-[#3b82f6] transform md:-skew-x-12 md:-ml-16 z-0 shadow-[4px_0_24px_rgba(0,0,0,0.2)] border-b-4 md:border-b-0 md:border-r-4 border-[#b45309]"></div>
+        {/* Dynamic Skewed Background - Removed */}
         
-        {/* Left Content (On Turmeric Background) */}
-        <div className="relative z-10 flex items-center h-full pl-0 gap-6 lg:gap-8 justify-between w-full md:w-auto">
+        {/* Left Content */}
+        <div className="relative z-10 flex items-center h-full pl-0 gap-2 sm:gap-4 lg:gap-8 justify-between w-full md:w-auto">
              
-             {/* G.I. Tag Section */}
-             <div className="flex items-center gap-3 group cursor-default">
+             {/* G.I. Tag Section - Rearranged */}
+             <div className="flex items-center gap-1.5 sm:gap-3 group cursor-default">
+                {/* Text: Shahdol District - With Oval Badge */}
+                <div className="relative inline-flex items-center justify-center px-2 sm:px-2.5 md:px-3 lg:px-2.5 py-0.5 sm:py-1 md:py-1.5 lg:py-1 rounded-full bg-white border-2 border-blue-600 shadow-sm hover:shadow-md transition-all duration-300 lg:-ml-1">
+                    <span className="relative text-[10px] sm:text-xs md:text-sm lg:text-[13px] font-serif font-extrabold uppercase tracking-widest bg-gradient-to-r from-turmeric-600 to-orange-600 bg-clip-text text-transparent drop-shadow-lg">Shahdol District</span>
+                </div>
+
+                {/* Logo Container 1 */}
                 <div className="relative flex-shrink-0">
-                    {/* The Badge Circle - Changed to White BG for better image visibility */}
-                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-[#b45309] shadow-lg overflow-hidden bg-white flex items-center justify-center relative z-10 group-hover:scale-110 transition-transform duration-300">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full border-2 border-[#b45309] shadow-lg overflow-hidden bg-white flex items-center justify-center relative z-10 group-hover:scale-110 transition-transform duration-300">
                         <img 
                            src="/gitag.png" 
                            alt="GI Tag Logo" 
@@ -114,29 +117,40 @@ const TopBar: React.FC = () => {
                         />
                     </div>
                 </div>
-                <div className="flex flex-col leading-tight justify-center text-[#ffffff]">
-                    <span className="text-[10px] font-bold uppercase tracking-widest opacity-90">Shahdol District</span>
-                    <span className="text-sm md:text-base font-extrabold tracking-tight drop-shadow-sm font-sans whitespace-nowrap">
-                        G.I. Tag For Haldi
+
+                {/* Text: G.I. TAG FOR HALDI */}
+                <div className="flex flex-col leading-tight justify-center text-blue-600">
+                    <span className="text-[6px] sm:text-[8px] md:text-xs font-extrabold tracking-tight drop-shadow-sm font-sans whitespace-nowrap">
+                        G.I. TAG FOR HALDI
+                    </span>
+                </div>
+
+                {/* Logo Container 2 */}
+                <div className="relative flex-shrink-0">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full border-2 border-[#b45309] shadow-lg overflow-hidden bg-white flex items-center justify-center relative z-10 group-hover:scale-110 transition-transform duration-300">
+                        <img 
+                           src="/gitag.png" 
+                           alt="GI Tag Logo" 
+                           className="w-full h-full object-contain p-0.5"
+                        />
+                    </div>
+                </div>
+
+                {/* Text: TRIBAL HERITAGE */}
+                <div className="flex flex-col leading-tight justify-center text-blue-600">
+                    <span className="text-[6px] sm:text-[8px] md:text-xs font-extrabold tracking-tight drop-shadow-sm font-sans whitespace-nowrap">
+                        TRIBAL HERITAGE
                     </span>
                 </div>
              </div>
-
-             {/* Social Icons (Dark on Blue) - Visible on all screens */}
-             <div className="flex items-center space-x-1 pl-4 border-l border-white/30 h-8 ml-auto md:ml-2">
-                <a href="#" className="p-1.5 rounded-full text-white hover:bg-white hover:text-blue-600 transition-all duration-300"><Facebook size={14} /></a>
-                <a href="#" className="p-1.5 rounded-full text-white hover:bg-white hover:text-blue-600 transition-all duration-300"><Instagram size={14} /></a>
-                <a href="#" className="p-1.5 rounded-full text-white hover:bg-white hover:text-blue-600 transition-all duration-300"><Twitter size={14} /></a>
-                <a href="#" className="p-1.5 rounded-full text-white hover:bg-white hover:text-blue-600 transition-all duration-300"><Youtube size={14} /></a>
-            </div>
-        </div>
+</div>
 
         {/* Right Content (On Navy Background) - Hidden on Mobile */}
-        <div className="relative z-10 hidden md:flex items-center gap-6 pl-4">
+        <div className="relative z-10 hidden md:flex items-center gap-4 lg:gap-6 pl-4">
              {/* Screen Reader Toggle */}
              <button 
                  onClick={toggleScreenReader}
-                 className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-300 ${
+                 className={`flex items-center gap-2 px-2 lg:px-3 py-1.5 rounded-full border transition-all duration-300 ${
                    isScreenReaderOn 
                      ? 'bg-green-500 border-green-500 text-white shadow-lg shadow-green-500/30' 
                      : 'border-blue-500 text-blue-600 hover:bg-blue-50'
@@ -144,17 +158,17 @@ const TopBar: React.FC = () => {
                  title={isScreenReaderOn ? "Turn Off Screen Reader" : "Turn On Screen Reader"}
                  aria-label={isScreenReaderOn ? "Screen Reader is On. Click to turn off." : "Screen Reader is Off. Click to turn on."}
              >
-                 <Volume2 size={16} />
-                 <span className="text-[10px] font-bold uppercase tracking-wide hidden lg:inline">
+                 <Volume2 size={14} className="lg:size-[16px]" />
+                 <span className="text-[9px] lg:text-[10px] font-bold uppercase tracking-wide hidden lg:inline">
                    Screen Reader
                  </span>
              </button>
 
              {/* Font Size Controls */}
-             <div className="flex items-center gap-2 mr-2 border-r border-gray-200 pr-6 h-8">
+             <div className="flex items-center gap-1.5 lg:gap-2 mr-2 lg:mr-3 border-r border-gray-200 pr-4 lg:pr-6 h-8">
                 <button 
                     onClick={() => document.documentElement.style.fontSize = '90%'}
-                    className="w-7 h-7 flex items-center justify-center rounded-full border border-blue-500 text-blue-600 text-[10px] font-bold hover:bg-blue-50 transition-colors uppercase"
+                    className="w-6 lg:w-7 h-6 lg:h-7 flex items-center justify-center rounded-full border border-blue-500 text-blue-600 text-[9px] lg:text-[10px] font-bold hover:bg-blue-50 transition-colors uppercase"
                     title="Decrease Font Size"
                     aria-label="Decrease font size"
                 >
@@ -162,7 +176,7 @@ const TopBar: React.FC = () => {
                 </button>
                 <button 
                     onClick={() => document.documentElement.style.fontSize = '100%'}
-                    className="w-7 h-7 flex items-center justify-center rounded-full border border-blue-500 text-blue-600 text-xs font-bold hover:bg-blue-50 transition-colors uppercase"
+                    className="w-6 lg:w-7 h-6 lg:h-7 flex items-center justify-center rounded-full border border-blue-500 text-blue-600 text-[9px] lg:text-xs font-bold hover:bg-blue-50 transition-colors uppercase"
                     title="Default Font Size"
                     aria-label="Reset font size to default"
                 >
@@ -170,7 +184,7 @@ const TopBar: React.FC = () => {
                 </button>
                 <button 
                     onClick={() => document.documentElement.style.fontSize = '110%'}
-                    className="w-7 h-7 flex items-center justify-center rounded-full border border-blue-500 text-blue-600 text-sm font-bold hover:bg-blue-50 transition-colors uppercase"
+                    className="w-6 lg:w-7 h-6 lg:h-7 flex items-center justify-center rounded-full border border-blue-500 text-blue-600 text-sm lg:text-sm font-bold hover:bg-blue-50 transition-colors uppercase"
                     title="Increase Font Size"
                     aria-label="Increase font size"
                 >
@@ -178,17 +192,17 @@ const TopBar: React.FC = () => {
                 </button>
              </div>
 
-             <a href="tel:+917052101786" className="flex items-center gap-2 group cursor-pointer opacity-80 hover:opacity-100 transition-opacity">
+             <a href="tel:+917052101786" className="flex items-center gap-1.5 lg:gap-2 group cursor-pointer opacity-80 hover:opacity-100 transition-opacity">
                 <div className="p-1.5 bg-blue-600 rounded-full group-hover:bg-blue-700 transition-colors shadow-sm">
-                    <Phone size={14} className="text-white group-hover:text-white transition-colors" />
+                    <Phone size={13} className="lg:size-[14px] text-white group-hover:text-white transition-colors" />
                 </div>
-                <span className="text-xs text-blue-800 group-hover:text-blue-600 transition-colors tracking-wide font-semibold hidden xl:inline">+91 7052 101 786</span>
+                <span className="text-[9px] lg:text-xs text-blue-800 group-hover:text-blue-600 transition-colors tracking-wide font-semibold hidden xl:inline">+91 7052 101 786</span>
              </a>
-             <a href="mailto:info@psnsu.ac.in" className="flex items-center gap-2 group cursor-pointer opacity-80 hover:opacity-100 transition-opacity">
+             <a href="mailto:info@psnsu.ac.in" className="flex items-center gap-1.5 lg:gap-2 group cursor-pointer opacity-80 hover:opacity-100 transition-opacity">
                 <div className="p-1.5 bg-blue-600 rounded-full group-hover:bg-blue-700 transition-colors shadow-sm">
-                    <Mail size={14} className="text-white group-hover:text-white transition-colors" />
+                    <Mail size={13} className="lg:size-[14px] text-white group-hover:text-white transition-colors" />
                 </div>
-                <span className="text-xs text-blue-800 group-hover:text-blue-600 transition-colors tracking-wide font-semibold hidden xl:inline">info@psnsu.ac.in</span>
+                <span className="text-[9px] lg:text-xs text-blue-800 group-hover:text-blue-600 transition-colors tracking-wide font-semibold hidden xl:inline">info@psnsu.ac.in</span>
              </a>
         </div>
       </div>

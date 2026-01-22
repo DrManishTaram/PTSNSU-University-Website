@@ -22,7 +22,7 @@ const AdmissionNotification: React.FC = () => {
                 </span>
             </h1>
             <p className="text-gray-300 text-lg max-w-2xl">
-                Join Pt. S.N. Shukla University to embark on a journey of academic excellence and innovation. Check the latest notifications below.
+                Join Pandit Shambhunath Shukla University to embark on a journey of academic excellence and innovation. Check the latest notifications below.
             </p>
         </div>
       </div>

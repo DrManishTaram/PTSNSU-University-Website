@@ -33,7 +33,7 @@ const About: React.FC = () => {
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-turmeric-200 via-white to-turmeric-200">Excellence</span>
                      </h1>
                      <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 font-light leading-relaxed mb-10 animate-fade-up opacity-0" style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}>
-                        Pandit S.N. Shukla University stands as a beacon of knowledge in the tribal heartland of Madhya Pradesh, bridging tradition with modern innovation.
+                        Pandit Shambhunath Shukla University stands as a beacon of knowledge in the tribal heartland of Madhya Pradesh, bridging tradition with modern innovation.
                      </p>
                      
                      <div className="animate-bounce absolute bottom-10 left-1/2 -translate-x-1/2 opacity-70">
@@ -59,7 +59,7 @@ const About: React.FC = () => {
                         <div className="w-full md:w-2/3 space-y-8 text-lg text-gray-600 leading-relaxed">
                             <p>
                                 <span className="text-6xl float-left mr-4 mt-[-10px] font-serif font-bold text-turmeric-500">P</span>
-                                andit S.N. Shukla University was established in 2016, but its roots go much deeper. Named after the illustrious freedom fighter and the first Chief Minister of Vindhya Pradesh, Pandit Shambhu Nath Shukla, our institution carries a rich legacy of service and nation-building.
+                                andit Shambhunath Shukla University was established in 2016, but its roots go much deeper. Named after the illustrious freedom fighter and the first Chief Minister of Vindhya Pradesh, Pandit Shambhu Nath Shukla, our institution carries a rich legacy of service and nation-building.
                             </p>
                             <p>
                                 Located in Shahdol, a region with a significant tribal population, the University was conceived with a singular noble purpose: to bring world-class higher education to the doorsteps of those who have been historically marginalized. We are committed to nurturing talent from rural hinterlands and molding them into global citizens.
@@ -171,7 +171,7 @@ const About: React.FC = () => {
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">Be a Part of Our Growing Legacy</h2>
                     <p className="text-turmeric-100 text-lg mb-8 max-w-2xl mx-auto">
-                        Join thousands of students who are shaping their future at Pandit S.N. Shukla University.
+                        Join thousands of students who are shaping their future at Pandit Shambhunath Shukla University.
                     </p>
                     <div className="flex justify-center gap-4">
                         <Link to="/admission-notification" className="bg-white text-earth-900 px-8 py-4 rounded-full font-bold hover:bg-earth-900 hover:text-white transition-all shadow-lg flex items-center gap-2">

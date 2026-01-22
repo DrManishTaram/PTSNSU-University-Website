@@ -64,14 +64,14 @@ const VCMessage: React.FC = () => {
                     <Quote className="absolute top-8 left-8 text-turmeric-100 w-20 h-20 -z-0" />
                     
                     <div className="relative z-10">
-                        <h2 className="text-3xl font-serif font-bold text-earth-900 mb-6">Welcome to Pt. S.N. Shukla University</h2>
+                        <h2 className="text-3xl font-serif font-bold text-earth-900 mb-6">Welcome to Pandit Shambhunath Shukla University</h2>
                         
                         <div className="prose prose-lg text-gray-600 leading-relaxed mb-8">
                             <p className="mb-4">
                                 <strong>Dear Students, Parents, and Faculty,</strong>
                             </p>
                             <p className="mb-6">
-                                It gives me immense pleasure to welcome you to Pandit S.N. Shukla University, an institution dedicated to academic excellence, research, and holistic development. Our university stands as a beacon of knowledge in the region, committed to empowering the youth with skills that bridge the gap between tradition and modernity.
+                                It gives me immense pleasure to welcome you to Pandit Shambhunath Shukla University, an institution dedicated to academic excellence, research, and holistic development. Our university stands as a beacon of knowledge in the region, committed to empowering the youth with skills that bridge the gap between tradition and modernity.
                             </p>
                             <p className="mb-6">
                                 In today's rapidly evolving world, education is not just about acquiring degrees but about developing critical thinking, ethical leadership, and a spirit of innovation. We have aligned our curriculum with the <strong>National Education Policy (NEP) 2020</strong> to ensure our students are ready for the global challenges of the 21st century.

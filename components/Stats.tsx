@@ -57,13 +57,13 @@ const StatItem: React.FC<{ icon: React.ReactNode; count: number; suffix: string;
 
 const Stats: React.FC = () => {
   return (
-    <section className="py-24 bg-earth-900 relative overflow-hidden">
+    <section className="py-12 sm:py-16 md:py-24 bg-earth-900 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5" style={{ backgroundImage: `url('https://www.transparenttextures.com/patterns/cubes.png')` }}></div>
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/20 to-transparent"></div>
       
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-white/10">
+      <div className="container mx-auto px-2 sm:px-4 relative z-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-8 divide-x divide-white/10">
           <StatItem icon={<Users />} count={5000} suffix="+" label="Students Enrolled" delay="0s" />
           <StatItem icon={<BookOpen />} count={120} suffix="+" label="Courses Offered" delay="0.1s" />
           <StatItem icon={<Award />} count={50} suffix="+" label="Awards Won" delay="0.2s" />
