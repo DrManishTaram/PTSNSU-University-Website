@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessagesSquare, X, Send, Bot, User, Sparkles, ChevronRight } from 'lucide-react';
+import { useHideOnSections } from './hooks/useHideOnSections';
 
 interface Message {
   id: string;
@@ -20,7 +21,7 @@ const Chatbot: React.FC = () => {
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [isContactVisible, setIsContactVisible] = useState(false);
+  const { isHiddenAreaVisible } = useHideOnSections();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -31,21 +32,9 @@ const Chatbot: React.FC = () => {
     scrollToBottom();
   }, [messages, isOpen]);
 
-  // Intersection Observer to hide buttons when Contact Section is visible
   useEffect(() => {
-    const contactSection = document.getElementById('contact-section');
-    if (!contactSection) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsContactVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 } // Trigger when 10% of the section is visible
-    );
-
-    observer.observe(contactSection);
-    return () => observer.disconnect();
-  }, []);
+    if (isHiddenAreaVisible) setIsOpen(false);
+  }, [isHiddenAreaVisible]);
 
   // Knowledge Base "AI" Logic
   const generateResponse = (query: string) => {
@@ -101,7 +90,7 @@ const Chatbot: React.FC = () => {
   return (
     <>
       {/* Mobile stacked floating buttons (mobile only) */}
-      <div className={`fixed right-6 bottom-6 md:hidden z-50 flex flex-col-reverse items-end gap-[5px] transition-all duration-500 ${isContactVisible ? 'opacity-0 translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
+      <div className={`fixed right-6 bottom-6 md:hidden z-50 flex flex-col-reverse items-end gap-[5px] transition-all duration-500 ${isHiddenAreaVisible ? 'opacity-0 translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
         {/* Mobile Chat Toggle (small) */}
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -138,7 +127,7 @@ const Chatbot: React.FC = () => {
       {/* Floating Admission Button for md+ - Hidden on mobile */}
       <a
         href="/admission-notification"
-        className={`hidden md:block fixed md:bottom-24 right-6 z-40 transition-all duration-500 group ${isContactVisible ? 'opacity-0 translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}`}
+        className={`hidden md:block fixed md:bottom-24 right-6 z-40 transition-all duration-500 group ${isHiddenAreaVisible ? 'opacity-0 translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}`}
         style={{ animationDuration: '3s' }}
       >
         <div className="relative">
@@ -160,7 +149,7 @@ const Chatbot: React.FC = () => {
           ${isOpen 
             ? 'w-14 h-14 rounded-full bg-gray-800 rotate-90' 
             : 'h-14 px-6 rounded-full bg-blue-600 hover:bg-blue-700 hover:scale-105 active:scale-95'} 
-          ${isContactVisible ? 'opacity-0 translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}
+          ${isHiddenAreaVisible ? 'opacity-0 translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}
           text-white border-[3px] border-white`}
       >
         {isOpen ? <X size={26} /> : <MessagesSquare size={26} className="text-white" />}
@@ -176,7 +165,7 @@ const Chatbot: React.FC = () => {
       {/* Chat Window - Also hidden when Contact Section is visible */}
       <div 
         className={`fixed bottom-24 right-4 md:bottom-28 md:right-8 z-50 w-[90vw] md:w-[400px] bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col transition-all duration-300 origin-bottom-right transform
-          ${isOpen && !isContactVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}
+          ${isOpen && !isHiddenAreaVisible ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}
         `}
         style={{ height: 'min(600px, 70vh)' }}
       >

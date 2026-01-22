@@ -1,36 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { ArrowUp } from 'lucide-react';
+import { useHideOnSections } from './hooks/useHideOnSections';
 
 const GoToTop: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const { isHiddenAreaVisible, isScrolling, scrolledEnough } = useHideOnSections();
 
-  useEffect(() => {
-    const footer = document.querySelector('footer');
-    
-    if (!footer) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Show button when footer is intersecting (visible)
-        setIsVisible(entry.isIntersecting);
-      },
-      {
-        threshold: 0.1, // Trigger when 10% of footer is visible
-      }
-    );
-
-    observer.observe(footer);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+  const isVisible = scrolledEnough && !isHiddenAreaVisible && !isScrolling;
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
