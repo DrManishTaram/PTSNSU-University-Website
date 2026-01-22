@@ -16,12 +16,11 @@ const Footer: React.FC = () => {
           {/* Column 1: Brand & About */}
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full border-2 border-turmeric-400 p-1 bg-white/5 backdrop-blur-sm">
+              <div className="w-16 h-16 rounded-full border-2 border-turmeric-400 p-1 bg-white/5 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
                 <img src="/logo.jpg" alt="University Logo" className="w-full h-full object-contain rounded-full" />
               </div>
               <div>
                 <h3 className="font-serif font-bold text-xl leading-none text-turmeric-400">Pandit Shambhunath Shukla University</h3>
-                <h4 className="font-sans font-bold text-sm tracking-widest text-white/90 mt-1 uppercase">University</h4>
               </div>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed border-l-2 border-turmeric-500/30 pl-4">

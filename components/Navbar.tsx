@@ -252,47 +252,52 @@ const Navbar: React.FC = () => {
         }
       }
 
-      /* Mobile navbar header styles - HORIZONTAL LAYOUT MATCHING DESIGN */
+      /* Mobile navbar header styles - TWO SECTION LAYOUT */
       @media (max-width: 768px) {
         .mobile-navbar-container {
           display: flex !important;
           flex-direction: column !important;
           gap: 0 !important;
-          width: calc(100% - 0.25rem) !important;
+          width: 100% !important;
           padding: 0 !important;
           box-sizing: border-box !important;
           position: relative !important;
-          background: white !important;
-          border: 2px solid #e0f4ff !important;
-          border-radius: 16px !important;
-          margin: 0.75rem auto !important;
-          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06) !important;
+          background: transparent !important;
+          border: none !important;
+          border-radius: 0 !important;
+          margin: 0 !important;
+          box-shadow: none !important;
           overflow: hidden !important;
         }
 
-        /* Top Section: Logo + Names */
+        /* Top Section: Logo + Names (70% - Navy Blue Background) */
         .mobile-navbar-top {
           display: flex !important;
           align-items: center !important;
           justify-content: center !important;
-          gap: 0.15rem !important;
-          padding: 1rem !important;
+          gap: 0.75rem !important;
+          padding: 1rem 0.5rem !important;
           width: 100% !important;
           box-sizing: border-box !important;
-          /* Ensure there's enough vertical room so Devanagari marks (matras) aren't clipped */
-          min-height: 56px !important;
+          min-height: auto !important;
+          background: #1a3a52 !important;
+          border-bottom: none !important;
+          overflow: visible !important;
+          flex: 0 0 auto !important;
         }
 
         .mobile-navbar-logo {
-          width: 46px !important;
-          height: 46px !important;
+          width: 50px !important;
+          height: 50px !important;
           flex-shrink: 0 !important;
           display: flex !important;
           align-items: center !important;
           justify-content: center !important;
-          border-radius: 8px !important;
-          /* smaller right margin so logo sits closer to the text */
-          margin-right: 0.125rem !important;
+          border-radius: 50% !important;
+          margin-right: 0.5rem !important;
+          background: white !important;
+          padding: 3px !important;
+          box-sizing: border-box !important;
         }
 
         .mobile-navbar-logo img {
@@ -300,103 +305,102 @@ const Navbar: React.FC = () => {
           height: 100% !important;
           object-fit: contain !important;
           display: block !important;
+          border-radius: 50% !important;
         }
 
         /* Names Container - Right side */
         .mobile-navbar-names {
-          /* make this shrink to content so the logo and text remain tightly grouped */
+          /* Display names vertically on separate lines */
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
-          gap: 0.15rem !important;
-          flex: 0 1 auto !important;
+          gap: 0.1rem !important;
+          flex: 1 !important;
           min-width: 0 !important;
-          /* group will be centered by the parent; text aligned left so it appears directly next to the logo */
-          text-align: left !important;
+          text-align: center !important;
           margin-left: 0 !important;
         }
 
         .mobile-navbar-names h1 {
           font-family: 'Arial', sans-serif !important;
           font-weight: 700 !important;
-          font-size: 11px !important;
-          line-height: 1.3 !important;
+          font-size: 12px !important;
+          line-height: 1.2 !important;
           letter-spacing: -0.3px !important;
-          color: #0099ff !important;
+          color: #ffffff !important;
           margin: 0 !important;
           padding: 0 !important;
-          white-space: normal !important;
-          word-break: break-word !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          min-width: 0 !important;
+          text-align: center !important;
+          display: block !important;
           max-width: 100% !important;
-          text-align: left !important;
-          display: none !important;
         }
 
         .mobile-navbar-names h2 {
           /* Prefer Devanagari-capable fonts first, fall back to system fonts */
           font-family: 'Noto Sans Devanagari', 'Mangal', 'Nirmala UI', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;
           font-weight: 700 !important;
-          font-size: 12.5px !important;
-          /* Increase line-height so matras (vowel marks above characters) don't get clipped */
-          line-height: 1.25 !important;
+          font-size: 11px !important;
+          line-height: 1.2 !important;
           letter-spacing: -0.2px !important;
-          color: #0099ff !important;
+          color: #ffffff !important;
           margin: 0 !important;
-          /* small top padding to avoid tight clipping with rounded container */
-          padding: 2px 0 0 0 !important;
-          /* Allow wrapping to two lines and clamp, instead of forcing a single truncated line */
-          white-space: normal !important;
-          display: -webkit-box !important;
-          -webkit-line-clamp: 2 !important;
-          -webkit-box-orient: vertical !important;
+          padding: 0 !important;
+          white-space: nowrap !important;
+          display: block !important;
           overflow: hidden !important;
           text-overflow: ellipsis !important;
+          min-width: 0 !important;
+          text-align: center !important;
           max-width: 100% !important;
-          text-align: left !important;
         }
 
-        /* Contact Section - Bottom */
+        /* Contact Section - Bottom (30% - Light Background) */
         .mobile-navbar-contact {
           display: flex !important;
           flex-direction: row !important;
           align-items: center !important;
-          justify-content: space-between !important;
-          gap: 0.5rem !important;
+          justify-content: center !important;
+          gap: 1rem !important;
           width: 100% !important;
-          padding: 0.5rem 0.75rem !important;
+          padding: 0.5rem 0.5rem !important;
           background: #f0f9ff !important;
-          border-top: 1px solid #e0f4ff !important;
+          border-top: none !important;
           box-sizing: border-box !important;
           position: relative !important;
           flex-wrap: wrap !important;
+          flex: 0 0 auto !important;
         }
 
         .mobile-navbar-contact-items {
           display: flex !important;
           flex-direction: row !important;
           align-items: center !important;
-          justify-content: flex-start !important;
-          gap: 0.5rem !important;
-          flex: 1 !important;
+          justify-content: center !important;
+          gap: 1rem !important;
+          flex: 0 1 auto !important;
           min-width: 0 !important;
-          flex-wrap: wrap !important;
+          flex-wrap: nowrap !important;
         }
 
         .mobile-navbar-contact-item {
           display: flex !important;
           align-items: center !important;
-          justify-content: flex-start !important;
+          justify-content: center !important;
           gap: 0.3rem !important;
-          font-size: 11px !important;
+          font-size: 10px !important;
           color: #0099ff !important;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
           white-space: nowrap !important;
         }
 
         .mobile-navbar-contact-item svg {
-          width: 16px !important;
-          height: 16px !important;
+          width: 14px !important;
+          height: 14px !important;
           color: #0099ff !important;
           flex-shrink: 0 !important;
         }
@@ -410,7 +414,7 @@ const Navbar: React.FC = () => {
           flex-shrink: 0 !important;
           color: #1f2937 !important;
           background: transparent !important;
-          border: none !important;
+          border: 2px solid #1a3a52 !important;
           border-radius: 6px !important;
           transition: all 0.3s ease !important;
           cursor: pointer !important;
@@ -421,53 +425,68 @@ const Navbar: React.FC = () => {
         }
 
         .mobile-navbar-hamburger:hover {
-          background: #e0f4ff !important;
+          background: #1a3a52 !important;
           transform: scale(1.05) !important;
+        }
+
+        .mobile-navbar-hamburger:hover svg {
+          color: #ffffff !important;
         }
 
         .mobile-navbar-hamburger svg {
           color: #1f2937 !important;
-          width: 20px !important;
-          height: 20px !important;
+          width: 18px !important;
+          height: 18px !important;
+          transition: color 0.3s ease !important;
         }
       }
 
       /* Responsive adjustments for extra small screens */
       @media (max-width: 360px) {
         .mobile-navbar-top {
-          padding: 0.75rem !important;
+          padding: 0.8rem 0.25rem !important;
           gap: 0.5rem !important;
-          /* give extra vertical room on very small screens */
-          min-height: 64px !important;
+          min-height: auto !important;
+          overflow-x: auto !important;
         }
 
         .mobile-navbar-logo {
-          /* reduce the oversized logo on very small screens to balance text space */
-          width: 56px !important;
-          height: 56px !important;
+          width: 46px !important;
+          height: 46px !important;
+          margin-right: 0.3rem !important;
+          padding: 2px !important;
+        }
+
+        .mobile-navbar-names {
+          gap: 0.05rem !important;
         }
 
         .mobile-navbar-names h1 {
-          font-size: 10px !important;
+          font-size: 11px !important;
+          line-height: 1.15 !important;
         }
 
         .mobile-navbar-names h2 {
-          font-size: 12px !important;
-          line-height: 1.3 !important;
-          padding-top: 3px !important;
+          font-size: 10px !important;
+          line-height: 1.15 !important;
         }
 
         .mobile-navbar-contact {
-          gap: 0.5rem !important;
-          padding: 0.6rem 0.75rem !important;
+          gap: 0.3rem !important;
+          padding: 0.5rem 0.25rem !important;
         }
 
         .mobile-navbar-contact-items {
-          gap: 1rem !important;
+          gap: 0.3rem !important;
         }
 
         .mobile-navbar-contact-item {
-          font-size: 11px !important;
+          font-size: 9px !important;
+        }
+
+        .mobile-navbar-contact-item svg {
+          width: 12px !important;
+          height: 12px !important;
         }
       }
 
