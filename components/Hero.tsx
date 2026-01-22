@@ -94,17 +94,18 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 flex items-center justify-center px-2 sm:px-3 md:px-4">
         <div
           key={current}
-          className={`${isMobileViewport ? 'w-[92%] sm:w-[85%] max-w-[720px]' : 'w-full'} ${isMobileViewport ? 'h-[203px]' : 'h-[160px]'} sm:h-[220px] md:h-[62vh] rounded-xl sm:rounded-2xl shadow-lg md:shadow-2xl overflow-hidden relative border-2 sm:border-4 border-[#0ea5e9] bg-white p-[3px] box-border`}
+          className={`${isMobileViewport ? 'w-[92%] sm:w-[85%] max-w-[720px]' : 'w-full'} ${isMobileViewport ? 'h-[203px]' : 'h-[160px]'} sm:h-[220px] md:h-[62vh] rounded-xl sm:rounded-2xl shadow-lg md:shadow-2xl overflow-hidden relative border-2 sm:border-4 border-[#0ea5e9] bg-white p-[2px] sm:p-[4px] box-border`}
           style={{ boxShadow: isMobileViewport ? '0 10px 30px rgba(2,6,23,0.08)' : undefined }}
         >
           {/* Inner container for overlays - respects the padding and rounded corners */}
           <div 
-            className="absolute inset-0 rounded-[calc(1rem-2px)] sm:rounded-[calc(1.25rem-2px)] md:rounded-[calc(1.5rem-2px)] overflow-hidden"
+            className="absolute inset-0 overflow-hidden rounded-[calc(0.75rem-2px)] sm:rounded-[calc(1rem-4px)]"
             style={{
               backgroundImage: `url('${slides[current].image}')`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
+              backgroundColor: '#000', // fallback to avoid thin white/aliasing fringes at corners
               boxShadow: isMobileViewport ? 'inset 0 0 0 6px rgba(255,255,255,0.05)' : 'inset 0 0 0 10px rgba(255,255,255,0.03)'
             }}
           >
