@@ -100,10 +100,45 @@ const Chatbot: React.FC = () => {
 
   return (
     <>
-      {/* Floating Admission Button - Hidden when Contact Section is visible */}
+      {/* Mobile stacked floating buttons (mobile only) */}
+      <div className={`fixed right-6 bottom-6 md:hidden z-50 flex flex-col-reverse items-end gap-[5px] transition-all duration-500 ${isContactVisible ? 'opacity-0 translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
+        {/* Mobile Chat Toggle (small) */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className={`relative z-50 shadow-2xl transition-all duration-300 flex items-center justify-center gap-2.5 h-7 px-3 rounded-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white border-2 border-white ${isOpen ? 'w-7 h-7 rounded-full bg-gray-800 rotate-90' : ''}`}
+        >
+          {isOpen ? <X className="w-5 h-5" /> : <MessagesSquare className="text-white w-5 h-5" />}
+          {!isOpen && (
+            <span className="font-bold text-[11px] tracking-wide whitespace-nowrap">Chat with us</span>
+          )}
+          {!isOpen && (
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-white animate-pulse"></span>
+          )}
+        </button>
+
+        {/* Mobile Admission (small) */}
+        <a
+          href="/admission-notification"
+          className="z-40 transition-all duration-300 group"
+          style={{ animationDuration: '3s' }}
+        >
+          <div className="relative">
+               <div className="bg-gradient-to-r from-violet-700 to-violet-600 text-white h-7 px-3 rounded-full shadow-[0_4px_20px_rgba(109,40,217,0.4)] border-2 border-white flex items-center gap-2 font-bold text-[11px] tracking-wide uppercase hover:scale-105 transition-transform">
+                  <span>Admission Open</span>
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+               </div>
+               {/* Alert Badge */}
+               <div className="absolute -top-1 -left-2 bg-turmeric-400 text-earth-900 text-[8px] font-black px-1.5 py-0.5 rounded shadow-sm border border-white transform -rotate-12 animate-pulse">
+                  NOW!
+               </div>
+          </div>
+        </a>
+      </div>
+
+      {/* Floating Admission Button for md+ - Hidden on mobile */}
       <a
         href="/admission-notification"
-        className={`fixed bottom-24 right-6 z-40 transition-all duration-500 group ${isContactVisible ? 'opacity-0 translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}`}
+        className={`hidden md:block fixed md:bottom-24 right-6 z-40 transition-all duration-500 group ${isContactVisible ? 'opacity-0 translate-y-10 pointer-events-none' : 'opacity-100 translate-y-0'}`}
         style={{ animationDuration: '3s' }}
       >
         <div className="relative">
@@ -118,10 +153,10 @@ const Chatbot: React.FC = () => {
         </div>
       </a>
 
-      {/* Floating Toggle Button - Hidden when Contact Section is visible */}
+      {/* Floating Toggle Button for md+ - Hidden on mobile */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 z-50 shadow-2xl transition-all duration-500 flex items-center justify-center gap-2.5
+        className={`hidden md:flex fixed bottom-6 right-6 z-50 shadow-2xl transition-all duration-500 flex items-center justify-center gap-2.5
           ${isOpen 
             ? 'w-14 h-14 rounded-full bg-gray-800 rotate-90' 
             : 'h-14 px-6 rounded-full bg-blue-600 hover:bg-blue-700 hover:scale-105 active:scale-95'} 
