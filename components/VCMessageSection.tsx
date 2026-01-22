@@ -47,7 +47,7 @@ const VCMessageSection: React.FC = () => {
               <span className="inline-block py-1 px-3 rounded-full bg-turmeric-50 text-turmeric-600 font-bold text-xs uppercase tracking-widest border border-turmeric-100">
                 Vice Chancellor's Desk
               </span>
-              <h2 className="text-4xl md:text-5xl font-serif font-bold text-earth-900 leading-tight">
+              <h2 className="text-[1.575rem] sm:text-4xl md:text-5xl font-serif font-bold text-earth-900 leading-tight">
                 A Message from
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-turmeric-600 to-forest-500">
                   The Vice Chancellor
