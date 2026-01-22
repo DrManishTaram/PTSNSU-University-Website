@@ -10,15 +10,19 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const [startProgress, setStartProgress] = useState(false);
 
   useEffect(() => {
-    // Show loader immediately
-    setShowLoader(true);
+    // Add 3-second delay before showing loader
+    const delayTimer = setTimeout(() => {
+      setShowLoader(true);
+    }, 3000);
+
+    return () => clearTimeout(delayTimer);
   }, []);
 
   useEffect(() => {
-    // Add delay before starting progress bar
+    // Add 3-second delay before starting progress bar
     const progressDelayTimer = setTimeout(() => {
       setStartProgress(true);
-    }, 500);
+    }, 3000);
 
     return () => clearTimeout(progressDelayTimer);
   }, []);
@@ -34,10 +38,10 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   }, []);
 
   useEffect(() => {
-    // Show skip button after delay
+    // Show skip button after 7 seconds (3 second delay + 4 seconds)
     const skipTimer = setTimeout(() => {
       setShowSkip(true);
-    }, 2000);
+    }, 7000);
 
     return () => clearTimeout(skipTimer);
   }, []);
@@ -76,7 +80,7 @@ const Loader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
     setIsExiting(true);
     setTimeout(() => {
         onComplete();
-    }, 300); // Reduced wait for exit animation
+    }, 800); // Wait for exit animation
   };
 
   return (
