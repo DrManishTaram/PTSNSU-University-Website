@@ -67,7 +67,7 @@ const Hero: React.FC = () => {
       style={{
         height: `calc(100vh - ${headerHeight + 60}px)`,
         maxHeight: `calc(100vh - ${headerHeight + 60}px)`,
-        minHeight: isMobileViewport ? '280px' : '300px',
+        minHeight: isMobileViewport ? '140px' : '300px',
         backgroundColor: 'transparent'
       }}
     >
@@ -91,7 +91,7 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 flex items-center justify-center px-2 sm:px-3 md:px-4">
         <div
           key={current}
-          className="w-full h-[90%] sm:h-[85%] md:h-[62vh] rounded-2xl sm:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden relative"
+          className="w-full h-[50%] sm:h-[85%] md:h-[62vh] rounded-2xl sm:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden relative"
           style={{
             backgroundColor: '#f0f0f0',
             padding: '3px',
