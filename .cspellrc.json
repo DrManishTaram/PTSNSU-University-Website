@@ -1,0 +1,34 @@
+﻿{
+  "language": "en",
+  "version": "0.2",
+  "words": [
+    "topbar",
+    "gitag",
+    "Haldi",
+    "Shahdol",
+    "Pandit",
+    "Shambhu",
+    "Nath",
+    "Shukla",
+    "Vishwavidyalaya",
+    "psnsu",
+    "mixBlendMode",
+    "Hackathon",
+    "Anukalp",
+    "Dwivedi",
+    "Sourabh",
+    "Majhi",
+    "NAAC",
+    "Sharma",
+    "Anjali",
+    "Mishra",
+    "Rohan",
+    "Singh"
+  ],
+  "ignorePaths": [
+    "node_modules",
+    ".git",
+    "dist",
+    "build"
+  ]
+}
