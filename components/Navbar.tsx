@@ -304,7 +304,7 @@ const Navbar: React.FC = () => {
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
-          gap: 0.6rem !important;
+          gap: 0.3rem !important;
           flex: 1 !important;
           min-width: 0 !important;
           text-align: center !important;
@@ -329,14 +329,15 @@ const Navbar: React.FC = () => {
         .mobile-navbar-names h2 {
           font-family: 'Arial', sans-serif !important;
           font-weight: 700 !important;
-          font-size: 16px !important;
-          line-height: 1.2 !important;
+          font-size: 12px !important;
+          line-height: 1.1 !important;
           letter-spacing: -0.2px !important;
           color: #0099ff !important;
           margin: 0 !important;
           padding: 0 !important;
-          white-space: normal !important;
-          word-break: break-word !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
           max-width: 100% !important;
           text-align: center !important;
         }
