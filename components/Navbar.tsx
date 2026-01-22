@@ -279,6 +279,8 @@ const Navbar: React.FC = () => {
           padding: 1rem !important;
           width: 100% !important;
           box-sizing: border-box !important;
+          /* Ensure there's enough vertical room so Devanagari marks (matras) aren't clipped */
+          min-height: 56px !important;
         }
 
         .mobile-navbar-logo {
@@ -289,6 +291,8 @@ const Navbar: React.FC = () => {
           align-items: center !important;
           justify-content: center !important;
           border-radius: 8px !important;
+          /* smaller right margin so logo sits closer to the text */
+          margin-right: 0.125rem !important;
         }
 
         .mobile-navbar-logo img {
@@ -300,14 +304,17 @@ const Navbar: React.FC = () => {
 
         /* Names Container - Right side */
         .mobile-navbar-names {
+          /* make this shrink to content so the logo and text remain tightly grouped */
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
-          gap: 0.3rem !important;
-          flex: 1 !important;
+          gap: 0.15rem !important;
+          flex: 0 1 auto !important;
           min-width: 0 !important;
-          text-align: center !important;
+          /* group will be centered by the parent; text aligned left so it appears directly next to the logo */
+          text-align: left !important;
+          margin-left: 0 !important;
         }
 
         .mobile-navbar-names h1 {
@@ -322,24 +329,31 @@ const Navbar: React.FC = () => {
           white-space: normal !important;
           word-break: break-word !important;
           max-width: 100% !important;
-          text-align: center !important;
+          text-align: left !important;
           display: none !important;
         }
 
         .mobile-navbar-names h2 {
-          font-family: 'Arial', sans-serif !important;
+          /* Prefer Devanagari-capable fonts first, fall back to system fonts */
+          font-family: 'Noto Sans Devanagari', 'Mangal', 'Nirmala UI', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;
           font-weight: 700 !important;
-          font-size: 12px !important;
-          line-height: 1.1 !important;
+          font-size: 12.5px !important;
+          /* Increase line-height so matras (vowel marks above characters) don't get clipped */
+          line-height: 1.25 !important;
           letter-spacing: -0.2px !important;
           color: #0099ff !important;
           margin: 0 !important;
-          padding: 0 !important;
-          white-space: nowrap !important;
+          /* small top padding to avoid tight clipping with rounded container */
+          padding: 2px 0 0 0 !important;
+          /* Allow wrapping to two lines and clamp, instead of forcing a single truncated line */
+          white-space: normal !important;
+          display: -webkit-box !important;
+          -webkit-line-clamp: 2 !important;
+          -webkit-box-orient: vertical !important;
           overflow: hidden !important;
           text-overflow: ellipsis !important;
           max-width: 100% !important;
-          text-align: center !important;
+          text-align: left !important;
         }
 
         /* Contact Section - Bottom */
@@ -423,11 +437,14 @@ const Navbar: React.FC = () => {
         .mobile-navbar-top {
           padding: 0.75rem !important;
           gap: 0.5rem !important;
+          /* give extra vertical room on very small screens */
+          min-height: 64px !important;
         }
 
         .mobile-navbar-logo {
-          width: 70px !important;
-          height: 70px !important;
+          /* reduce the oversized logo on very small screens to balance text space */
+          width: 56px !important;
+          height: 56px !important;
         }
 
         .mobile-navbar-names h1 {
@@ -435,7 +452,9 @@ const Navbar: React.FC = () => {
         }
 
         .mobile-navbar-names h2 {
-          font-size: 11px !important;
+          font-size: 12px !important;
+          line-height: 1.3 !important;
+          padding-top: 3px !important;
         }
 
         .mobile-navbar-contact {
@@ -472,8 +491,8 @@ const Navbar: React.FC = () => {
               <div className="mobile-navbar-container">
                 {/* Top Section: Logo + Names */}
                 <div className="mobile-navbar-top">
-                  {/* Logo */}
-                  <Link to="/" className="group cursor-pointer flex-shrink-0">
+                  {/* Combined link so logo and names sit tightly together and center as a group */}
+                  <Link to="/" className="group cursor-pointer flex items-center gap-1">
                       <div className="mobile-navbar-logo flex-shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-2">
                           <img 
                               src="/logo.jpg" 
@@ -481,10 +500,6 @@ const Navbar: React.FC = () => {
                               className="object-contain drop-shadow-md hover:brightness-110 transition-all"
                           />
                       </div>
-                  </Link>
-                  
-                  {/* Names - Right side */}
-                  <Link to="/" className="group cursor-pointer flex-1 min-w-0">
                       <div className="mobile-navbar-names">
                           <h1>
                               Pandit Shambhunath Shukla Vishwavidyalaya, Shahdol (M.P.)
