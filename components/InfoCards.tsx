@@ -86,7 +86,7 @@ const InfoCards: React.FC = () => {
       <div className="container mx-auto">
         {/* Section header - Enhanced with gradient and larger size */}
         <div className="mb-2 sm:mb-3 md:mb-4 text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-2 sm:mb-4">
+          <h2 className="text-[21px] sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-2 sm:mb-4">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-900 via-turmeric-600 to-blue-900">
               University Notifications
             </span>
