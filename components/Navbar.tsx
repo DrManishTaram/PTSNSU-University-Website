@@ -347,46 +347,49 @@ const Navbar: React.FC = () => {
           display: flex !important;
           flex-direction: row !important;
           align-items: center !important;
-          justify-content: center !important;
-          gap: 1rem !important;
+          justify-content: space-between !important;
+          gap: 0.5rem !important;
           width: 100% !important;
-          padding: 0.357rem 1rem !important;
+          padding: 0.5rem 0.75rem !important;
           background: #f0f9ff !important;
           border-top: 1px solid #e0f4ff !important;
           box-sizing: border-box !important;
           position: relative !important;
+          flex-wrap: wrap !important;
         }
 
         .mobile-navbar-contact-items {
           display: flex !important;
           flex-direction: row !important;
           align-items: center !important;
-          justify-content: center !important;
-          gap: 1.5rem !important;
+          justify-content: flex-start !important;
+          gap: 0.5rem !important;
           flex: 1 !important;
+          min-width: 0 !important;
+          flex-wrap: wrap !important;
         }
 
         .mobile-navbar-contact-item {
           display: flex !important;
           align-items: center !important;
-          justify-content: center !important;
-          gap: 0.4rem !important;
-          font-size: 13px !important;
+          justify-content: flex-start !important;
+          gap: 0.3rem !important;
+          font-size: 11px !important;
           color: #0099ff !important;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
           white-space: nowrap !important;
         }
 
         .mobile-navbar-contact-item svg {
-          width: 18px !important;
-          height: 18px !important;
+          width: 16px !important;
+          height: 16px !important;
           color: #0099ff !important;
           flex-shrink: 0 !important;
         }
 
         /* Hamburger Menu - In contact section on the right */
         .mobile-navbar-hamburger {
-          padding: 0.5rem !important;
+          padding: 0.35rem !important;
           display: flex !important;
           align-items: center !important;
           justify-content: center !important;
@@ -398,6 +401,9 @@ const Navbar: React.FC = () => {
           transition: all 0.3s ease !important;
           cursor: pointer !important;
           z-index: 10 !important;
+          width: 32px !important;
+          height: 32px !important;
+          margin-left: auto !important;
         }
 
         .mobile-navbar-hamburger:hover {
@@ -407,6 +413,8 @@ const Navbar: React.FC = () => {
 
         .mobile-navbar-hamburger svg {
           color: #1f2937 !important;
+          width: 20px !important;
+          height: 20px !important;
         }
       }
 
