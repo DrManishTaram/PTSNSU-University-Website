@@ -258,7 +258,7 @@ const Navbar: React.FC = () => {
           display: flex !important;
           flex-direction: column !important;
           gap: 0 !important;
-          width: calc(100% - 0.5rem) !important;
+          width: calc(100% - 0.25rem) !important;
           padding: 0 !important;
           box-sizing: border-box !important;
           position: relative !important;
@@ -313,7 +313,7 @@ const Navbar: React.FC = () => {
         .mobile-navbar-names h1 {
           font-family: 'Arial', sans-serif !important;
           font-weight: 700 !important;
-          font-size: 13px !important;
+          font-size: 11px !important;
           line-height: 1.3 !important;
           letter-spacing: -0.3px !important;
           color: #0099ff !important;
@@ -429,7 +429,7 @@ const Navbar: React.FC = () => {
         }
 
         .mobile-navbar-names h1 {
-          font-size: 12px !important;
+          font-size: 10px !important;
         }
 
         .mobile-navbar-names h2 {
