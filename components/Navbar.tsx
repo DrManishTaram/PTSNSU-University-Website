@@ -323,13 +323,14 @@ const Navbar: React.FC = () => {
           word-break: break-word !important;
           max-width: 100% !important;
           text-align: center !important;
+          display: none !important;
         }
 
         .mobile-navbar-names h2 {
           font-family: 'Arial', sans-serif !important;
           font-weight: 700 !important;
-          font-size: 12px !important;
-          line-height: 1.3 !important;
+          font-size: 16px !important;
+          line-height: 1.2 !important;
           letter-spacing: -0.2px !important;
           color: #0099ff !important;
           margin: 0 !important;
