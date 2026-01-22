@@ -258,14 +258,14 @@ const Navbar: React.FC = () => {
           display: flex !important;
           flex-direction: column !important;
           gap: 0 !important;
-          width: 100% !important;
+          width: calc(100% - 1rem) !important;
           padding: 0 !important;
           box-sizing: border-box !important;
           position: relative !important;
           background: white !important;
           border: 2px solid #e0f4ff !important;
           border-radius: 16px !important;
-          margin: 0.75rem 0.5rem !important;
+          margin: 0.75rem auto !important;
           box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06) !important;
           overflow: hidden !important;
         }
@@ -274,7 +274,7 @@ const Navbar: React.FC = () => {
         .mobile-navbar-top {
           display: flex !important;
           align-items: center !important;
-          justify-content: flex-start !important;
+          justify-content: center !important;
           gap: 0.15rem !important;
           padding: 1rem !important;
           width: 100% !important;
@@ -347,7 +347,7 @@ const Navbar: React.FC = () => {
           display: flex !important;
           flex-direction: row !important;
           align-items: center !important;
-          justify-content: space-between !important;
+          justify-content: center !important;
           gap: 1rem !important;
           width: 100% !important;
           padding: 0.357rem 1rem !important;
