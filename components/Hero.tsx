@@ -67,8 +67,9 @@ const Hero: React.FC = () => {
       style={{
         // Keep hero compact on mobile so the card reads as a framed element rather than a full-bleed poster
         height: isMobileViewport ? 'auto' : `calc(100vh - ${headerHeight + 60}px)`,
-        maxHeight: isMobileViewport ? '220px' : `calc(100vh - ${headerHeight + 60}px)`,
-        minHeight: isMobileViewport ? '140px' : '300px',
+        // increased mobile sizes by an additional 30%
+        maxHeight: isMobileViewport ? '372px' : `calc(100vh - ${headerHeight + 60}px)`,
+        minHeight: isMobileViewport ? '237px' : '300px',
         padding: isMobileViewport ? '0.75rem 0' : undefined,
         backgroundColor: 'transparent'
       }}
@@ -76,16 +77,16 @@ const Hero: React.FC = () => {
       {/* Dual-tone background: top half white, bottom half wavy solid color (behind the card) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         {/* Top half - light teal wavy */}
-        <div className="absolute top-0 left-0 right-0 h-16 sm:h-1/2 overflow-hidden" style={{ opacity: isMobileViewport ? 0.12 : 1 }}>
+        <div className="absolute top-0 left-0 right-0 h-[110px] sm:h-1/2 overflow-hidden" style={{ opacity: isMobileViewport ? 0.72 : 1, filter: isMobileViewport ? 'saturate(1.15) contrast(1.05)' : 'saturate(1.05) contrast(1.02)' }}>
           <svg className="w-full h-full block" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill="#7dd3d0" d="M0,224L48,213.3C96,203,192,181,288,170.7C384,160,480,160,576,154.7C672,149,768,139,864,117.3C960,96,1056,64,1152,58.7C1248,53,1344,75,1392,85.3L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+            <path fill="#7dd3d0" d="M0,224L48,213.3C96,203,192,181,288,170.7C384,160,480,160,576,154.7C672,149,768,139,864,117.3C960,96,1056,64,1152,58.7C1248,53,1344,75,1392,85.3L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z" />
           </svg>
         </div>
 
         {/* Bottom half - wavy dark navy blue */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 sm:h-1/2 bg-transparent" style={{ opacity: isMobileViewport ? 0.12 : 1 }}>
+        <div className="absolute bottom-0 left-0 right-0 h-[110px] sm:h-1/2 bg-transparent" style={{ opacity: isMobileViewport ? 0.86 : 1, filter: isMobileViewport ? 'saturate(1.08) contrast(1.06)' : 'saturate(1.03) contrast(1.02)' }}>
           <svg className="w-full h-full block" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill="#001f3f" d="M0,64L48,69.3C96,75,192,85,288,106.7C384,128,480,160,576,149.3C672,139,768,85,864,74.7C960,64,1056,96,1152,112C1248,128,1344,128,1392,128L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            <path fill="#001f3f" d="M0,64L48,69.3C96,75,192,85,288,106.7C384,128,480,160,576,149.3C672,139,768,85,864,74.7C960,64,1056,96,1152,112C1248,128,1344,128,1392,128L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z" />
           </svg>
         </div>
       </div>
@@ -93,7 +94,7 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 flex items-center justify-center px-2 sm:px-3 md:px-4">
         <div
           key={current}
-          className={`w-[92%] sm:w-[85%] max-w-[720px] ${isMobileViewport ? 'h-[120px]' : 'h-[160px]'} sm:h-[220px] md:h-[62vh] rounded-xl sm:rounded-2xl shadow-lg md:shadow-2xl overflow-hidden relative border-2 sm:border-4 border-[#0ea5e9] bg-white p-[3px] box-border`}
+          className={`${isMobileViewport ? 'w-[92%] sm:w-[85%] max-w-[720px]' : 'w-full'} ${isMobileViewport ? 'h-[203px]' : 'h-[160px]'} sm:h-[220px] md:h-[62vh] rounded-xl sm:rounded-2xl shadow-lg md:shadow-2xl overflow-hidden relative border-2 sm:border-4 border-[#0ea5e9] bg-white p-[3px] box-border`}
           style={{ boxShadow: isMobileViewport ? '0 10px 30px rgba(2,6,23,0.08)' : undefined }}
         >
           {/* Inner container for overlays - respects the padding and rounded corners */}
@@ -146,7 +147,7 @@ const Hero: React.FC = () => {
       {/* Side Navigation Arrows: REMOVED - Using dot indicators instead */}
 
       {/* Dot Indicators - visible on all screens, prominent and interactive */}
-      <div className="absolute left-1/2 -translate-x-1/2 z-30 flex gap-2 sm:gap-2.5 md:gap-3 items-center justify-center" style={{ bottom: isMobileViewport ? '12px' : '20px' }}>
+      <div className="absolute left-1/2 -translate-x-1/2 z-30 flex gap-2 sm:gap-2.5 md:gap-3 items-center justify-center" style={{ bottom: isMobileViewport ? '21px' : '20px' }}>
         {slides.map((_, index) => (
           <button
             key={index}
@@ -158,8 +159,8 @@ const Hero: React.FC = () => {
                 : 'bg-white/60 hover:bg-white/80'
             }`}
             style={{
-              width: index === current ? (isMobileViewport ? '18px' : 'clamp(24px, 4vw, 32px)') : (isMobileViewport ? '8px' : 'clamp(10px, 2vw, 14px)'),
-              height: index === current ? (isMobileViewport ? '10px' : 'clamp(10px, 1.5vw, 14px)') : (isMobileViewport ? '8px' : 'clamp(8px, 1.2vw, 10px)'),
+              width: index === current ? (isMobileViewport ? '29px' : 'clamp(24px, 4vw, 32px)') : (isMobileViewport ? '13px' : 'clamp(10px, 2vw, 14px)'),
+              height: index === current ? (isMobileViewport ? '16px' : 'clamp(10px, 1.5vw, 14px)') : (isMobileViewport ? '13px' : 'clamp(8px, 1.2vw, 10px)'),
             }}
           />
         ))}
