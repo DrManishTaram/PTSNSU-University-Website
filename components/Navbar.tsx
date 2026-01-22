@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, X, ChevronDown, Phone, ChevronRight } from 'lucide-react';
+import { Search, Menu, X, ChevronDown, Phone } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 interface SubItem {
@@ -252,292 +252,195 @@ const Navbar: React.FC = () => {
         }
       }
 
-      /* Mobile navbar header styles */
+      /* Mobile navbar header styles - HORIZONTAL LAYOUT MATCHING DESIGN */
       @media (max-width: 768px) {
         .mobile-navbar-container {
           display: flex !important;
-          align-items: center;
-          justify-content: space-between;
-          gap: 0.75rem;
-          width: 100%;
-          padding-left: 0; /* removed to shift content left */
-          padding-right: 0; /* removed to shift content left */
-          box-sizing: border-box;
-          position: relative; /* allow absolute positioning of hamburger */
-        }
-        .mobile-navbar-branding {
-          display: flex !important;
-          align-items: center;
-          justify-content: flex-start;
-          gap: 0.5rem;
-          flex: 1;
-          min-width: 0;
-          overflow: visible;
-          margin-right: 56px; /* reserve space for the absolute-positioned hamburger */
-          padding: 2px; /* shifted by 2px as requested */
-          box-sizing: border-box;
-        }
-        .mobile-navbar-names {
-          display: flex !important;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center; /* center both names horizontally */
-          text-align: center;
-          flex: 1;
-          min-width: 0;
-          overflow: visible;
-          padding: 0 2px; /* small horizontal padding to match branding */
-        }
-        .mobile-navbar-logo {
-          width: 28px !important; /* reduced from 36px to free more text width */
-          height: 28px !important; /* reduced from 36px */
-          flex-shrink: 0;
-          margin-left: 0; /* ensure left alignment with 2px padding */
-        }
-        .mobile-navbar-names h1 {
-          font-family: serif;
-          font-weight: 700;
-          font-size: clamp(7px, 2.2vw, 9px) !important; /* reduced so it fits better */
-          line-height: 1.0; /* tighter to allow up to two lines without huge height */
-          letter-spacing: 0.01em;
-          text-transform: uppercase;
-          color: #070738;
-          margin: 0;
-          padding: 0;
-          white-space: normal; /* allow wrapping instead of forcing ellipsis */
-          overflow: visible;
-          text-overflow: unset;
-          display: -webkit-box;
-          -webkit-line-clamp: 2; /* visually limit to two lines */
-          -webkit-box-orient: vertical;
-          max-width: 100%;
-          word-break: break-word;
-        }
-        /* Hindi name centered and allowed to wrap if necessary */
-        .mobile-navbar-names h2 {
-          font-family: serif;
-          font-weight: 700;
-          font-size: clamp(9px, 3.2vw, 11px) !important;
-          line-height: 1.05;
-          letter-spacing: 0.02em;
-          color: #070738;
-          margin: 0;
-          padding: 0;
-          white-space: normal; /* allow wrapping for devanagari */
-          overflow: visible;
-          text-overflow: unset;
-          overflow-wrap: anywhere; /* support devanagari breaks */
-          display: block;
-        }
-        .mobile-navbar-logo {
-          width: 28px !important; /* reduced from 36px to free more text width */
-          height: 28px !important; /* reduced from 36px */
-          flex-shrink: 0;
-        }
-        .mobile-navbar-logo img {
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-          display: block;
-        }
-        .mobile-navbar-hamburger {
-          padding: 0.5rem;
-          display: flex !important;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          position: absolute; /* float over the right edge */
-          right: 8px;
-          top: 50%;
-          transform: translateY(-50%);
-        }
-        /* Make English and Hindi names equal size on mobile and prevent wrapping
-           by using nowrap + ellipsis. Keep them centered and readable. */
-        .mobile-navbar-names h1,
-        .mobile-navbar-names h2 {
-          font-family: serif;
-          font-weight: 700;
-          font-size: clamp(9px, 3vw, 11px) !important; /* same size for both */
-          line-height: 1;
-          letter-spacing: 0.01em;
-          color: #070738;
-          margin: 0;
-          padding: 0;
-          white-space: nowrap; /* keep single line */
-          overflow: hidden;
-          text-overflow: ellipsis; /* show ellipsis if space is insufficient */
-          display: block;
-          max-width: 100%;
-        }
-        .mobile-navbar-names h1 { text-transform: uppercase; }
-      }
-
-      /* Override/cleanup mobile rules to prevent cropping of the English name */
-      @media (max-width: 768px) {
-        .mobile-navbar-branding {
-          /* give more room on the right for hamburger and ensure small padding */
-          margin-right: 72px !important; /* reserve extra space */
-          padding-left: 2px !important;
-          padding-right: 2px !important;
-        }
-
-        .mobile-navbar-logo {
-          width: 32px !important; /* slightly smaller to free horizontal space */
-          height: 32px !important;
-        }
-
-        /* Make names align left so they can use full width and wrap naturally */
-        .mobile-navbar-names {
-          align-items: flex-start !important;
-          text-align: left !important;
-          padding-left: 4px !important;
-          padding-right: 4px !important;
-        }
-
-        /* English title: larger but allowed to wrap up to 2 lines (no ellipsis) */
-        .mobile-navbar-names h1 {
-          font-family: serif;
-          font-weight: 700;
-          font-size: clamp(10px, 3vw, 13px) !important;
-          line-height: 1.05 !important;
-          letter-spacing: 0.01em !important;
-          text-transform: uppercase;
-          color: #070738;
-          margin: 0 !important;
-          padding: 0 !important;
-          white-space: normal !important; /* allow wrapping */
-          overflow: visible !important;
-          text-overflow: unset !important;
-          display: -webkit-box !important;
-          -webkit-line-clamp: 2 !important; /* allow up to two lines */
-          -webkit-box-orient: vertical !important;
-          max-width: 100% !important;
-          word-break: break-word !important;
-        }
-
-        /* Hindi title: slightly smaller, also allowed to wrap */
-        .mobile-navbar-names h2 {
-          font-family: serif;
-          font-weight: 700;
-          font-size: clamp(9px, 3vw, 12px) !important;
-          line-height: 1.08 !important;
-          margin: 4px 0 0 0 !important; /* small vertical gap */
-          padding: 0 !important;
-          white-space: normal !important;
-          overflow: visible !important;
-          text-overflow: unset !important;
-          overflow-wrap: anywhere !important;
-        }
-      }
-
-      /* Ensure mobile branding has more breathing room: larger logo and vertical gap between English and Hindi */
-      @media (max-width: 768px) {
-        .mobile-navbar-logo {
-          width: 40px !important; /* increased for better visibility on mobile */
-          height: 40px !important;
-        }
-        .mobile-navbar-names {
-          gap: 6px; /* vertical gap between English (h1) and Hindi (h2) */
-        }
-        .mobile-navbar-names h2 {
-          margin-top: 0; /* rely on gap; keep no extra margin */
-        }
-      }
-
-      @media (max-width: 360px) {
-        .mobile-navbar-logo {
-          width: 36px !important; /* slightly smaller on very small devices */
-          height: 36px !important;
-        }
-      }
-
-      /* Extra small screens: slightly reduce logo to give more text width */
-      @media (max-width: 360px) {
-        .mobile-navbar-logo {
-          width: 28px !important;
-          height: 28px !important;
-        }
-        /* Allow wrapping on very small screens and reduce font so name doesn't get cropped */
-        .mobile-navbar-names h1 {
-          font-size: clamp(7px, 3.6vw, 9px) !important;
-          white-space: normal; /* allow wrapping */
-          overflow: visible;
-          text-overflow: unset;
-          display: -webkit-box;
-          -webkit-line-clamp: 2; /* keep max two lines */
-          -webkit-box-orient: vertical;
-          line-height: 1.0;
-        }
-        .mobile-navbar-names h2 { font-size: clamp(8px, 3.6vw, 10px) !important; }
-        .mobile-navbar-names h1,
-        .mobile-navbar-names h2 {
-          font-size: clamp(8px, 3.6vw, 10px) !important;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          line-height: 1;
-        }
-      }
-
-      /* Left-aligned mobile authoritative override (2px padding) */
-      @media (max-width: 768px) {
-        .mobile-navbar-container {
-          display: flex !important;
-          align-items: center !important;
-          justify-content: flex-start !important; /* left align */
+          flex-direction: column !important;
+          gap: 0 !important;
           width: 100% !important;
-          padding-left: 2px !important;
-          padding-right: 2px !important;
+          padding: 0 !important;
+          box-sizing: border-box !important;
           position: relative !important;
+          background: white !important;
+          border: 2px solid #e0f4ff !important;
+          border-radius: 16px !important;
+          margin: 0.75rem 0.5rem !important;
+          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06) !important;
+          overflow: hidden !important;
         }
-        .mobile-navbar-branding {
+
+        /* Top Section: Logo + Names */
+        .mobile-navbar-top {
           display: flex !important;
           align-items: center !important;
           justify-content: flex-start !important;
-          gap: 0.25rem !important; /* reduced gap to bring text nearer the logo */
-          padding: 2px !important; /* requested 2px padding */
+          gap: 0.15rem !important;
+          padding: 1rem !important;
+          width: 100% !important;
           box-sizing: border-box !important;
-          max-width: calc(100% - 56px) !important; /* reserve space for hamburger */
-          margin: 0 !important;
-          overflow: visible !important;
         }
+
         .mobile-navbar-logo {
-          width: 36px !important;
-          height: 36px !important;
+          width: 46px !important;
+          height: 46px !important;
           flex-shrink: 0 !important;
-          margin: 0 4px 0 0 !important; /* smaller gap after logo */
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          border-radius: 8px !important;
         }
+
+        .mobile-navbar-logo img {
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: contain !important;
+          display: block !important;
+        }
+
+        /* Names Container - Right side */
         .mobile-navbar-names {
           display: flex !important;
           flex-direction: column !important;
-          align-items: flex-start !important;
-          text-align: left !important;
-          gap: 4px !important; /* reduce vertical gap between English and Hindi */
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 0.6rem !important;
+          flex: 1 !important;
           min-width: 0 !important;
-          overflow: visible !important;
-          padding-left: 0 !important; /* remove extra left padding to move text closer */
+          text-align: center !important;
         }
-        .mobile-navbar-names h1,
-        .mobile-navbar-names h2 {
-          white-space: normal !important; /* allow wrapping */
-          overflow: visible !important;
-          text-overflow: unset !important;
+
+        .mobile-navbar-names h1 {
+          font-family: 'Arial', sans-serif !important;
+          font-weight: 700 !important;
+          font-size: 13px !important;
+          line-height: 1.2 !important;
+          letter-spacing: -0.3px !important;
+          color: #0099ff !important;
           margin: 0 !important;
           padding: 0 !important;
-          line-height: 1.05 !important;
-          font-family: serif !important;
-          font-weight: 700 !important;
-          font-size: clamp(9px, 2.6vw, 11px) !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
           max-width: 100% !important;
-          word-break: break-word !important;
+          text-align: center !important;
         }
-        .mobile-navbar-names h1 { text-transform: uppercase !important; }
+
+        .mobile-navbar-names h2 {
+          font-family: 'Arial', sans-serif !important;
+          font-weight: 700 !important;
+          font-size: 12px !important;
+          line-height: 1.2 !important;
+          letter-spacing: -0.2px !important;
+          color: #0099ff !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          max-width: 100% !important;
+          text-align: center !important;
+        }
+
+        /* Contact Section - Bottom */
+        .mobile-navbar-contact {
+          display: flex !important;
+          flex-direction: row !important;
+          align-items: center !important;
+          justify-content: space-between !important;
+          gap: 1rem !important;
+          width: 100% !important;
+          padding: 0.357rem 1rem !important;
+          background: #f0f9ff !important;
+          border-top: 1px solid #e0f4ff !important;
+          box-sizing: border-box !important;
+          position: relative !important;
+        }
+
+        .mobile-navbar-contact-items {
+          display: flex !important;
+          flex-direction: row !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 1.5rem !important;
+          flex: 1 !important;
+        }
+
+        .mobile-navbar-contact-item {
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 0.4rem !important;
+          font-size: 13px !important;
+          color: #0099ff !important;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+          white-space: nowrap !important;
+        }
+
+        .mobile-navbar-contact-item svg {
+          width: 18px !important;
+          height: 18px !important;
+          color: #0099ff !important;
+          flex-shrink: 0 !important;
+        }
+
+        /* Hamburger Menu - In contact section on the right */
         .mobile-navbar-hamburger {
-          position: absolute !important;
-          right: 8px !important;
-          top: 50% !important;
-          transform: translateY(-50%) !important;
-          padding: 6px !important;
+          padding: 0.5rem !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          flex-shrink: 0 !important;
+          color: #1f2937 !important;
+          background: transparent !important;
+          border: none !important;
+          border-radius: 6px !important;
+          transition: all 0.3s ease !important;
+          cursor: pointer !important;
+          z-index: 10 !important;
+        }
+
+        .mobile-navbar-hamburger:hover {
+          background: #e0f4ff !important;
+          transform: scale(1.05) !important;
+        }
+
+        .mobile-navbar-hamburger svg {
+          color: #1f2937 !important;
+        }
+      }
+
+      /* Responsive adjustments for extra small screens */
+      @media (max-width: 360px) {
+        .mobile-navbar-top {
+          padding: 0.75rem !important;
+          gap: 0.5rem !important;
+        }
+
+        .mobile-navbar-logo {
+          width: 70px !important;
+          height: 70px !important;
+        }
+
+        .mobile-navbar-names h1 {
+          font-size: 12px !important;
+        }
+
+        .mobile-navbar-names h2 {
+          font-size: 11px !important;
+        }
+
+        .mobile-navbar-contact {
+          gap: 0.5rem !important;
+          padding: 0.6rem 0.75rem !important;
+        }
+
+        .mobile-navbar-contact-items {
+          gap: 1rem !important;
+        }
+
+        .mobile-navbar-contact-item {
+          font-size: 11px !important;
         }
       }
 
@@ -553,42 +456,59 @@ const Navbar: React.FC = () => {
       }`}
     >
         {/* Row 1: Branding & Actions */}
-      <div className="relative bg-white z-30 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.12)] border-b border-gray-200">
-        <div className="container mx-auto px-2 sm:px-4 lg:px-6 xl:max-w-[95%] py-2 md:py-3 min-h-[60px] sm:min-h-[80px] md:min-h-[100px]">
+      <div className="relative bg-white z-30 md:shadow-[0_15px_40px_-10px_rgba(0,0,0,0.12)] md:border-b md:border-gray-200">
+        <div className="container mx-auto px-2 sm:px-4 lg:px-6 xl:max-w-[95%] py-2 md:py-3 md:min-h-[60px] sm:md:min-h-[80px] md:min-h-[100px]">
             
-            {/* Mobile Layout */}
+            {/* Mobile Layout - HORIZONTAL DESIGN */}
             {isMobile && (
-              <div className="mobile-navbar-container md:hidden">
-                {/* Left/Center: Logo + Names (fills most space) */}
-                <Link to="/" className="group cursor-pointer mobile-navbar-branding">
-                    {/* Logo */}
-                    <div className="mobile-navbar-logo flex-shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                        <img 
-                            src="/logo.jpg" 
-                            alt="University Logo" 
-                            className="object-contain drop-shadow-md hover:brightness-110 transition-all"
-                            style={{ filter: 'contrast(1.25)', width: '100%', height: '100%', maxWidth: '48px', maxHeight: '48px', objectFit: 'contain' }}
-                        />
-                    </div>
-                    
-                    {/* Names */}
-                    <div className="mobile-navbar-names">
-                        <h1>
-                            Pandit Shambhunath Shukla Vishwavidyalaya, Shahdol (M.P.)
-                        </h1>
-                        <h2>
-                            पंडित शंभूनाथ शुक्ल विश्वविद्यालय, शहडोल (म.प्र.)
-                        </h2>
-                    </div>
-                </Link>
+              <div className="mobile-navbar-container">
+                {/* Top Section: Logo + Names */}
+                <div className="mobile-navbar-top">
+                  {/* Logo */}
+                  <Link to="/" className="group cursor-pointer flex-shrink-0">
+                      <div className="mobile-navbar-logo flex-shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-2">
+                          <img 
+                              src="/logo.jpg" 
+                              alt="University Logo" 
+                              className="object-contain drop-shadow-md hover:brightness-110 transition-all"
+                          />
+                      </div>
+                  </Link>
+                  
+                  {/* Names - Right side */}
+                  <Link to="/" className="group cursor-pointer flex-1 min-w-0">
+                      <div className="mobile-navbar-names">
+                          <h1>
+                              Pandit Shambhunath Shukla Vishwavidyalaya, Shahdol (M.P.)
+                          </h1>
+                          <h2>
+                              पंडित शंभूनाथ शुक्ल विश्वविद्यालय, शहडोल (म.प्र.)
+                          </h2>
+                      </div>
+                  </Link>
+                </div>
 
-                {/* Right: Hamburger Menu */}
-                <button 
-                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    className="mobile-navbar-hamburger text-earth-900 focus:outline-none hover:bg-gray-100 rounded-md transition-colors"
-                >
-                    {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
-                </button>
+                {/* Bottom Section: Contact Information */}
+                <div className="mobile-navbar-contact">
+                    <div className="mobile-navbar-contact-items">
+                        <div className="mobile-navbar-contact-item">
+                            <Phone size={18} strokeWidth={2.5} />
+                            <span>Phone: 07652-240917</span>
+                        </div>
+                        <div className="mobile-navbar-contact-item">
+                            <span style={{ width: '18px', height: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: '#0099ff', fontSize: '14px', fontWeight: 'bold' }}>✉</span>
+                            <span>ptsnuniversity@gmail.com</span>
+                        </div>
+                    </div>
+                    {/* Right: Hamburger Menu */}
+                    <button 
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        className="mobile-navbar-hamburger text-gray-700 focus:outline-none"
+                        aria-label="Toggle menu"
+                    >
+                        {mobileMenuOpen ? <X size={22} strokeWidth={2.5} /> : <Menu size={22} strokeWidth={2.5} />}
+                    </button>
+                </div>
               </div>
             )}
 
