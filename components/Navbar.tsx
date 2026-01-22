@@ -267,28 +267,33 @@ const Navbar: React.FC = () => {
           display: flex !important;
           flex-direction: column;
           justify-content: center;
-          text-align: left;
+          align-items: center; /* center both names horizontally */
+          text-align: center;
           flex: 1;
           min-width: 0;
           overflow: visible;
         }
-        /* Responsive font size and wrapping so final words like (M.P.) are visible */
+        /* Reduce English name size to avoid cropping on small screens; allow wrapping if needed */
         .mobile-navbar-names h1 {
           font-family: serif;
           font-weight: 700;
-          font-size: clamp(10px, 3.8vw, 12px) !important;
-          line-height: 1.05;
-          letter-spacing: 0.02em;
+          font-size: clamp(7px, 2.2vw, 9px) !important; /* reduced so it fits better */
+          line-height: 1.0; /* tighter to allow up to two lines without huge height */
+          letter-spacing: 0.01em;
           text-transform: uppercase;
           color: #070738;
           margin: 0;
           padding: 0;
-          white-space: normal; /* allow wrapping */
+          white-space: normal; /* allow wrapping instead of forcing ellipsis */
           overflow: visible;
           text-overflow: unset;
-          overflow-wrap: anywhere; /* allow breaks for long words/labels */
-          display: block;
+          display: -webkit-box;
+          -webkit-line-clamp: 2; /* visually limit to two lines */
+          -webkit-box-orient: vertical;
+          max-width: 100%;
+          word-break: break-word;
         }
+        /* Hindi name centered and allowed to wrap if necessary */
         .mobile-navbar-names h2 {
           font-family: serif;
           font-weight: 700;
@@ -298,15 +303,15 @@ const Navbar: React.FC = () => {
           color: #070738;
           margin: 0;
           padding: 0;
-          white-space: normal; /* allow wrapping */
+          white-space: normal; /* allow wrapping for devanagari */
           overflow: visible;
           text-overflow: unset;
           overflow-wrap: anywhere; /* support devanagari breaks */
           display: block;
         }
         .mobile-navbar-logo {
-          width: 42px !important;
-          height: 42px !important;
+          width: 36px !important;
+          height: 36px !important;
           flex-shrink: 0;
         }
         .mobile-navbar-logo img {
@@ -322,16 +327,53 @@ const Navbar: React.FC = () => {
           justify-content: center;
           flex-shrink: 0;
         }
+        /* Make English and Hindi names equal size on mobile and prevent wrapping
+           by using nowrap + ellipsis. Keep them centered and readable. */
+        .mobile-navbar-names h1,
+        .mobile-navbar-names h2 {
+          font-family: serif;
+          font-weight: 700;
+          font-size: clamp(9px, 3vw, 11px) !important; /* same size for both */
+          line-height: 1;
+          letter-spacing: 0.01em;
+          color: #070738;
+          margin: 0;
+          padding: 0;
+          white-space: nowrap; /* keep single line */
+          overflow: hidden;
+          text-overflow: ellipsis; /* show ellipsis if space is insufficient */
+          display: block;
+          max-width: 100%;
+        }
+        .mobile-navbar-names h1 { text-transform: uppercase; }
       }
 
       /* Extra small screens: slightly reduce logo to give more text width */
       @media (max-width: 360px) {
         .mobile-navbar-logo {
-          width: 36px !important;
-          height: 36px !important;
+          width: 28px !important;
+          height: 28px !important;
         }
-        .mobile-navbar-names h1 { font-size: clamp(9px, 4.2vw, 11px) !important; }
+        /* Allow wrapping on very small screens and reduce font so name doesn't get cropped */
+        .mobile-navbar-names h1 {
+          font-size: clamp(7px, 3.6vw, 9px) !important;
+          white-space: normal; /* allow wrapping */
+          overflow: visible;
+          text-overflow: unset;
+          display: -webkit-box;
+          -webkit-line-clamp: 2; /* keep max two lines */
+          -webkit-box-orient: vertical;
+          line-height: 1.0;
+        }
         .mobile-navbar-names h2 { font-size: clamp(8px, 3.6vw, 10px) !important; }
+        .mobile-navbar-names h1,
+        .mobile-navbar-names h2 {
+          font-size: clamp(8px, 3.6vw, 10px) !important;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1;
+        }
       }
 
       /* Desktop navbar header styles */
@@ -367,10 +409,10 @@ const Navbar: React.FC = () => {
                     {/* Names */}
                     <div className="mobile-navbar-names">
                         <h1>
-                            Pandit Shambhunath Shukla Vishwavidyalaya, Shahdol
+                            Pandit Shambhunath Shukla Vishwavidyalaya, Shahdol (M.P.)
                         </h1>
                         <h2>
-                            पंडित शंभूनाथ शुक्ल विश्वविद्यालय, शहडोल
+                            पंडित शंभूनाथ शुक्ल विश्वविद्यालय, शहडोल (म.प्र.)
                         </h2>
                     </div>
                 </Link>
