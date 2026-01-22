@@ -67,7 +67,7 @@ const Hero: React.FC = () => {
       style={{
         height: `calc(100vh - ${headerHeight + 60}px)`,
         maxHeight: `calc(100vh - ${headerHeight + 60}px)`,
-        minHeight: isMobileViewport ? '140px' : '300px',
+        minHeight: isMobileViewport ? '70px' : '300px',
         backgroundColor: 'transparent'
       }}
     >
