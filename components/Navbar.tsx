@@ -529,7 +529,7 @@ const Navbar: React.FC = () => {
                               Pandit Shambhunath Shukla Vishwavidyalaya, Shahdol (M.P.)
                           </h1>
                           <h2>
-                              पंडित शंभूनाथ शुक्ल विश्वविद्यालय, शहडोल (म.प्र.)
+                              पंडित शंभूनाथ शुक्ला विश्‍वविद्यालय, शहडोल (म. प्र.)
                           </h2>
                       </div>
                   </Link>
@@ -640,7 +640,7 @@ const Navbar: React.FC = () => {
                             Pandit Shambhunath Shukla Vishwavidyalaya, Shahdol (M.P.)
                         </h1>
                         <h2 className="font-serif font-bold leading-snug text-sm sm:text-base md:text-xl lg:text-2xl tracking-wide mt-1 text-center animate-fade-in" style={{ animationDelay: '0.2s', color: '#070738' }}>
-                            पंडित शंभूनाथ शुक्ल विश्वविद्यालय, शहडोल (म.प्र.)
+                            पंडित शंभूनाथ शुक्ला विश्‍वविद्यालय, शहडोल (म. प्र.)
                         </h2>
                     </div>
                 </Link>
