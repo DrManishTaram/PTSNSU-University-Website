@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, X, ChevronDown, Phone } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { Search, Menu, X, ChevronRight, ChevronDown, Plus, Phone } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 interface SubItem {
@@ -28,6 +29,7 @@ const Navbar: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   // Track JS-level viewport so we can *conditionally render* the mobile header
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -45,13 +47,22 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // mark mounted to safely use document in portals
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
+      // mark document so we can neutralize filters/backdrop-filters from other components
+      document.documentElement.classList.add('mobile-menu-open');
     } else {
       document.body.style.overflow = 'unset';
-    }
+      document.documentElement.classList.remove('mobile-menu-open');
+    };
   }, [mobileMenuOpen]);
 
   const navLinks: NavItem[] = [
@@ -500,14 +511,58 @@ const Navbar: React.FC = () => {
         .mobile-navbar-container { display: none !important; }
         .mobile-navbar-hamburger { display: none !important; }
       }
-    `}</style>
+
+      /* Force mobile side-panel/backdrop above everything when rendered into body */
+      #mobile-side-panel {
+        position: fixed !important;
+        right: 0 !important;
+        top: 0 !important;
+        height: 100vh !important;
+        z-index: 9999999999 !important; /* extremely high */
+        background: rgba(255,255,255,1) !important; /* solid white to avoid dim-through */
+      }
+
+      #mobile-side-backdrop {
+        position: fixed !important;
+        inset: 0 !important;
+        z-index: 9999999998 !important;
+        background: transparent !important; /* keep transparent to avoid dimming */
+      }
+
+      /* When mobile menu is open, neutralize filters/backdrop-filters/opacity on page elements
+         This prevents other components using backdrop-blur/opacity from visually dimming the app */
+      .mobile-menu-open *,
+      .mobile-menu-open *::before,
+      .mobile-menu-open *::after,
+      .mobile-menu-open::before,
+      .mobile-menu-open::after,
+      .mobile-menu-open html,
+      .mobile-menu-open body {
+        filter: none !important;
+        -webkit-filter: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        opacity: 1 !important;
+        mix-blend-mode: normal !important;
+        transition: none !important;
+      }
+
+      /* Allow the side panel and its backdrop to keep their appearance */
+      .mobile-menu-open #mobile-side-panel,
+      .mobile-menu-open #mobile-side-backdrop {
+        filter: none !important;
+        backdrop-filter: none !important;
+        opacity: 1 !important;
+        transition: none !important;
+      }
+     `}</style>
     <nav 
       className={`sticky top-0 z-50 w-full transition-all duration-500 bg-white animate-slide-down ${
         isScrolled ? 'shadow-lg' : 'shadow-sm'
       }`}
     >
         {/* Row 1: Branding & Actions */}
-      <div className="relative bg-white z-30 md:shadow-[0_15px_40px_-10px_rgba(0,0,0,0.12)] md:border-b md:border-gray-200">
+      <div className="relative bg-white z-30">
         <div className="container mx-auto px-2 sm:px-4 lg:px-6 xl:max-w-[95%] py-2 md:py-3 md:min-h-[60px] sm:md:min-h-[80px] md:min-h-[100px]">
             
             {/* Mobile Layout - HORIZONTAL DESIGN */}
@@ -560,64 +615,96 @@ const Navbar: React.FC = () => {
             )}
 
             {/* Mobile menu panel (visible on small screens) */}
-            {isMobile && mobileMenuOpen && (
-              <div className="md:hidden absolute left-0 right-0 bg-white shadow-lg border-t border-gray-200 z-40 animate-slide-down">
-                <div className="px-3 py-3">
-                  <nav>
-                    <ul className="space-y-1">
-                      {navLinks.map((link) => (
-                        <li key={link.name} className="last:border-b-0 border-b border-gray-100">
-                          {/* Simple link (no submenu/mega menu) */}
-                          {link.href && !link.megaMenu && !link.submenu ? (
-                            <Link to={link.href} onClick={() => setMobileMenuOpen(false)} className="block py-3 text-base font-semibold text-gray-800">
-                              {link.name}
-                            </Link>
-                          ) : (
-                            <div>
-                              <button
-                                type="button"
-                                onClick={() => toggleMobileSubmenu(link.name)}
-                                className="w-full flex items-center justify-between py-3 text-left"
-                              >
-                                <span className="font-semibold text-gray-800">{link.name}</span>
-                                <ChevronDown className={`transition-transform ${activeMobileSubmenu === link.name ? 'rotate-180' : ''}`} />
-                              </button>
+            {isMobile && mounted &&
+              createPortal(
+                <>
+                  {/* Side panel: slides in from right. Rendered into document.body to escape stacking contexts. */}
+                  <div
+                    className={`md:hidden fixed top-0 right-0 h-full shadow-lg border-l border-gray-200 transform transition-transform duration-350 ease-in-out`.trim()
+                      + ` ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`
+                    }
+                    id="mobile-side-panel"
+                    style={{ width: '70vw', maxWidth: '420px', background: 'rgba(255,255,255,1)' }}
+                    aria-hidden={!mobileMenuOpen}
+                  >
+                    <div className="px-3 py-4 h-full overflow-auto">
+                      <div className="flex items-center justify-between mb-2">
+                        <div />
+                        <button
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="p-2 rounded-md text-gray-700 hover:bg-gray-100"
+                          aria-label="Close menu"
+                        >
+                          <ChevronRight size={20} strokeWidth={2.5} />
+                        </button>
+                      </div>
+                      <nav>
+                        <ul className="space-y-1">
+                          {navLinks.map((link) => (
+                            <li key={link.name} className="last:border-b-0 border-b border-gray-100">
+                              {link.href && !link.megaMenu && !link.submenu ? (
+                                <Link to={link.href} onClick={() => setMobileMenuOpen(false)} className="block py-3 text-base font-semibold text-gray-800">
+                                  {link.name}
+                                </Link>
+                              ) : (
+                                <div>
+                                  <button
+                                    type="button"
+                                    onClick={() => toggleMobileSubmenu(link.name)}
+                                    className="w-full flex items-center justify-between py-3 text-left"
+                                  >
+                                    <span className="font-semibold text-gray-800">{link.name}</span>
+                                    {isMobile ? (
+                                      <Plus size={18} strokeWidth={2.5} className={`transition-transform ${activeMobileSubmenu === link.name ? 'rotate-45' : ''}`} />
+                                    ) : (
+                                      <ChevronDown className={`transition-transform ${activeMobileSubmenu === link.name ? 'rotate-180' : ''}`} />
+                                    )}
+                                  </button>
 
-                              <div className={`overflow-hidden transition-[max-height] duration-300 ${activeMobileSubmenu === link.name ? 'max-h-[800px] py-2' : 'max-h-0'}`}>
-                                {/* megaMenu sections */}
-                                {link.megaMenu && link.megaMenu.map((section) => (
-                                  <div key={section.title} className="pl-4 pb-2">
-                                    <div className="text-sm font-medium text-gray-500 py-1">{section.title}</div>
-                                    <ul className="pl-2">
-                                      {section.items.map((item) => (
-                                        <li key={item.name}>
-                                          <Link to={item.href} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-gray-700">
-                                            {item.name}
-                                          </Link>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                ))}
+                                  <div className={`overflow-hidden transition-[max-height] duration-300 ${activeMobileSubmenu === link.name ? 'max-h-[800px] py-2' : 'max-h-0'}`}>
+                                    {link.megaMenu && link.megaMenu.map((section) => (
+                                      <div key={section.title} className="pl-4 pb-2">
+                                        <div className="text-sm font-medium text-gray-500 py-1">{section.title}</div>
+                                        <ul className="pl-2">
+                                          {section.items.map((item) => (
+                                            <li key={item.name}>
+                                              <Link to={item.href} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-gray-700">
+                                                {item.name}
+                                              </Link>
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      </div>
+                                    ))}
 
-                                {/* simple submenu items */}
-                                {link.submenu && link.submenu.map((item) => (
-                                  <div key={item.name} className="pl-4 pb-2">
-                                    <Link to={item.href} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-gray-700">
-                                      {item.name}
-                                    </Link>
+                                    {link.submenu && link.submenu.map((item) => (
+                                      <div key={item.name} className="pl-4 pb-2">
+                                        <Link to={item.href} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-gray-700">
+                                          {item.name}
+                                        </Link>
+                                      </div>
+                                    ))}
                                   </div>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </nav>
-                </div>
-              </div>
-            )}
+                                </div>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+
+                  {/* Backdrop to dim content and close panel when clicked */}
+                  <div
+                    className={`md:hidden fixed inset-0 transition-opacity duration-300 ${mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                    aria-hidden={!mobileMenuOpen}
+                    id="mobile-side-backdrop"
+                    style={{ background: 'transparent' }}
+                  />
+                </>,
+                document.body
+              )}
 
             {/* Desktop Layout: Grid for perfect centering */}
             <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center gap-4">
@@ -657,6 +744,64 @@ const Navbar: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+        </div> {/* close inner container so the following nav can be full-bleed */}
+
+        {/* Desktop full-bleed navigation (spans entire viewport) */}
+        <div className="hidden md:block bg-[#071133] border-t-0 mt-0">
+          <nav className="w-full">
+            <div className="max-w-screen-xl mx-auto px-4">
+              <div className="flex items-center justify-center gap-6 py-3 text-sm font-medium flex-nowrap whitespace-nowrap">
+               {navLinks.map((link) => (
+                 <div key={link.name} className="relative group inline-flex">
+                  {link.href && !link.megaMenu && !link.submenu ? (
+                    <Link to={link.href} className="inline-block text-white font-medium leading-tight hover:text-turmeric-300 px-4 py-1 whitespace-nowrap">
+                      {link.name}
+                    </Link>
+                   ) : (
+                     <div className="inline-flex">
+                      <button type="button" className="inline-flex items-center gap-1 text-white font-medium leading-tight hover:text-turmeric-300 px-4 py-1 whitespace-nowrap">
+                        <span className="whitespace-nowrap">{link.name}</span>
+                        {(link.megaMenu || link.submenu) && <ChevronDown size={12} className="text-white" />}
+                      </button>
+
+                       {(link.megaMenu || link.submenu) && (
+                        <div className="absolute left-1/2 transform -translate-x-1/2 hidden group-hover:block mt-2 w-[760px] bg-white border rounded shadow-lg p-4 z-50">
+                           <div className="grid grid-cols-2 gap-4">
+                             {link.megaMenu?.map((section) => (
+                               <div key={section.title}>
+                                 <div className="text-sm font-semibold text-gray-600 mb-2">{section.title}</div>
+                                 <ul className="text-sm">
+                                   {section.items.map((item) => (
+                                     <li key={item.name}>
+                                       <Link to={item.href} className="block py-1 text-gray-700 hover:text-blue-600">{item.name}</Link>
+                                     </li>
+                                   ))}
+                                 </ul>
+                               </div>
+                             ))}
+
+                             {link.submenu && (
+                               <div>
+                                 <ul>
+                                   {link.submenu.map((item) => (
+                                     <li key={item.name}>
+                                       <Link to={item.href} className="block py-1 text-gray-700 hover:text-blue-600">{item.name}</Link>
+                                     </li>
+                                   ))}
+                                 </ul>
+                               </div>
+                             )}
+                           </div>
+                         </div>
+                       )}
+                     </div>
+                   )}
+                 </div>
+               ))}
+              </div>
+            </div>
+          </nav>
         </div>
 
         {/* Search Overlay */}
