@@ -264,9 +264,12 @@ const Navbar: React.FC = () => {
           position: relative !important;
           background: transparent !important;
           border: none !important;
-          border-radius: 0 !important;
+          /* give a subtle rounded shape so the blue glow appears around edges */
+          border-radius: 10px !important;
           margin: 0 !important;
-          box-shadow: none !important;
+          /* prominent light-blue halo/glow around mobile header */
+          box-shadow: 0 8px 30px rgba(3,169,244,0.18), 0 0 0 6px rgba(3,169,244,0.06);
+          transition: box-shadow 240ms ease, transform 200ms ease;
           overflow: hidden !important;
         }
 
