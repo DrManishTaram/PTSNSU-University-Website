@@ -280,15 +280,16 @@ const Navbar: React.FC = () => {
           width: 100% !important;
           box-sizing: border-box !important;
           min-height: auto !important;
-          background: #1a3a52 !important;
+          background: #071133 !important;
           border-bottom: none !important;
           overflow: visible !important;
           flex: 0 0 auto !important;
         }
 
         .mobile-navbar-logo {
-          width: 50px !important;
-          height: 50px !important;
+          /* reduced by 25% for mobile: 50px -> 38px */
+          width: 38px !important;
+          height: 38px !important;
           flex-shrink: 0 !important;
           display: flex !important;
           align-items: center !important;
@@ -414,7 +415,7 @@ const Navbar: React.FC = () => {
           flex-shrink: 0 !important;
           color: #1f2937 !important;
           background: transparent !important;
-          border: 2px solid #1a3a52 !important;
+          border: 2px solid #071133 !important;
           border-radius: 6px !important;
           transition: all 0.3s ease !important;
           cursor: pointer !important;
@@ -425,7 +426,7 @@ const Navbar: React.FC = () => {
         }
 
         .mobile-navbar-hamburger:hover {
-          background: #1a3a52 !important;
+          background: #071133 !important;
           transform: scale(1.05) !important;
         }
 
@@ -451,8 +452,9 @@ const Navbar: React.FC = () => {
         }
 
         .mobile-navbar-logo {
-          width: 46px !important;
-          height: 46px !important;
+          /* extra-small screens: reduced by 25% from 46px -> 35px */
+          width: 35px !important;
+          height: 35px !important;
           margin-right: 0.3rem !important;
           padding: 2px !important;
         }
