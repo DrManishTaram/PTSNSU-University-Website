@@ -13,8 +13,8 @@ export function useHideOnSections(options: Options = {}) {
   const {
     contactId = 'contact-section',
     footerSelector = 'footer',
-    contactRootMargin = '0px 0px -160px 0px',
-    nearFooterDistance = 220,
+    contactRootMargin = '0px',
+    nearFooterDistance = 300,
     scrollDebounce = 180,
     scrolledEnoughThreshold = 300,
   } = options;

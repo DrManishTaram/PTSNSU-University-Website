@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Phone, Mail, Clock, Send, Globe, ArrowRight } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, Globe, ArrowRight, ArrowUp } from 'lucide-react';
 
 const ContactSection: React.FC = () => {
   return (
@@ -13,7 +13,7 @@ const ContactSection: React.FC = () => {
 
       {/* Subtle Pattern Overlay */}
       <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%231a1c20\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }}></div>
-      
+
       <div className="container mx-auto px-2 sm:px-4 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-8 sm:mb-12 md:mb-16">
@@ -29,7 +29,7 @@ const ContactSection: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-10 items-stretch">
-          
+
           {/* Contact Information - Left Column */}
           <div className="lg:col-span-2 space-y-3 sm:space-y-4 md:space-y-6">
             {/* Address Card */}
@@ -91,20 +91,20 @@ const ContactSection: React.FC = () => {
             {/* Map Preview */}
             <div className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 group">
               <div className="h-32 sm:h-40 relative overflow-hidden">
-                <iframe 
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3664.7486712301998!2d81.45010068379764!3d23.288580252189004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3986f90055702bbd%3A0x183a5e16f32a79a8!2sPtsns%20university%20main%20campus%20shahdol!5e0!3m2!1sen!2sin!4v1768051688999!5m2!1sen!2sin" 
-                  width="100%" 
-                  height="100%" 
-                  style={{ border: 0 }} 
-                  allowFullScreen 
-                  loading="lazy" 
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3664.7486712301998!2d81.45010068379764!3d23.288580252189004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3986f90055702bbd%3A0x183a5e16f32a79a8!2sPtsns%20university%20main%20campus%20shahdol!5e0!3m2!1sen!2sin!4v1768051688999!5m2!1sen!2sin"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
                   title="University Location Map"
                   className="grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100"
                 ></iframe>
               </div>
-              <a 
-                href="https://maps.app.goo.gl/yWFEQMhW3fT7hAK28" 
-                target="_blank" 
+              <a
+                href="https://maps.app.goo.gl/yWFEQMhW3fT7hAK28"
+                target="_blank"
                 className="flex items-center justify-center gap-2 py-2 sm:py-3 text-xs sm:text-sm font-semibold text-turmeric-600 hover:bg-turmeric-50 transition-colors"
               >
                 View on Google Maps <ArrowRight size={12} className="sm:size-[16px]" />
@@ -117,57 +117,57 @@ const ContactSection: React.FC = () => {
             {/* Decorative Corners */}
             <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-turmeric-100 to-transparent rounded-bl-[100px] -mr-10 -mt-10"></div>
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-violet-100 to-transparent rounded-tr-[100px] -ml-8 -mb-8"></div>
-            
+
             <div className="relative z-10">
               <h3 className="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-earth-900 mb-1 sm:mb-2">Send us a Message</h3>
               <p className="text-gray-500 text-xs sm:text-base mb-4 sm:mb-6 md:mb-8">Fill out the form below and we'll get back to you shortly.</p>
-            
+
               <form className="space-y-3 sm:space-y-4 md:space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-5">
                   <div className="space-y-1.5 sm:space-y-2">
-                      <label className="text-[10px] sm:text-xs font-bold text-earth-800 uppercase tracking-wider">Your Name</label>
-                      <input 
-                          type="text" 
-                          placeholder="Anukalp Dwivedi" 
-                          className="w-full bg-gray-50/80 text-earth-900 border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3.5 focus:outline-none focus:border-turmeric-500 focus:bg-white focus:ring-4 focus:ring-turmeric-500/10 transition-all font-medium placeholder-gray-400 text-sm"
-                      />
+                    <label className="text-[10px] sm:text-xs font-bold text-earth-800 uppercase tracking-wider">Your Name</label>
+                    <input
+                      type="text"
+                      placeholder="Anukalp Dwivedi"
+                      className="w-full bg-gray-50/80 text-earth-900 border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3.5 focus:outline-none focus:border-turmeric-500 focus:bg-white focus:ring-4 focus:ring-turmeric-500/10 transition-all font-medium placeholder-gray-400 text-sm"
+                    />
                   </div>
                   <div className="space-y-1.5 sm:space-y-2">
-                      <label className="text-[10px] sm:text-xs font-bold text-earth-800 uppercase tracking-wider">Phone Number</label>
-                      <input 
-                          type="tel" 
-                          placeholder="+91 98765 43210" 
-                          className="w-full bg-gray-50/80 text-earth-900 border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3.5 focus:outline-none focus:border-turmeric-500 focus:bg-white focus:ring-4 focus:ring-turmeric-500/10 transition-all font-medium placeholder-gray-400 text-sm"
-                      />
+                    <label className="text-[10px] sm:text-xs font-bold text-earth-800 uppercase tracking-wider">Phone Number</label>
+                    <input
+                      type="tel"
+                      placeholder="+91 98765 43210"
+                      className="w-full bg-gray-50/80 text-earth-900 border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3.5 focus:outline-none focus:border-turmeric-500 focus:bg-white focus:ring-4 focus:ring-turmeric-500/10 transition-all font-medium placeholder-gray-400 text-sm"
+                    />
                   </div>
                 </div>
 
                 <div className="space-y-1.5 sm:space-y-2">
                   <label className="text-[10px] sm:text-xs font-bold text-earth-800 uppercase tracking-wider">Email Address</label>
-                  <input 
-                      type="email" 
-                      placeholder="anukalp@example.com" 
-                      className="w-full bg-gray-50/80 text-earth-900 border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3.5 focus:outline-none focus:border-turmeric-500 focus:bg-white focus:ring-4 focus:ring-turmeric-500/10 transition-all font-medium placeholder-gray-400 text-sm"
+                  <input
+                    type="email"
+                    placeholder="anukalp@example.com"
+                    className="w-full bg-gray-50/80 text-earth-900 border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3.5 focus:outline-none focus:border-turmeric-500 focus:bg-white focus:ring-4 focus:ring-turmeric-500/10 transition-all font-medium placeholder-gray-400 text-sm"
                   />
                 </div>
 
                 <div className="space-y-1.5 sm:space-y-2">
                   <label className="text-[10px] sm:text-xs font-bold text-earth-800 uppercase tracking-wider">Subject</label>
                   <select className="w-full bg-gray-50/80 text-earth-900 border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3.5 focus:outline-none focus:border-turmeric-500 focus:bg-white focus:ring-4 focus:ring-turmeric-500/10 transition-all font-medium appearance-none cursor-pointer text-sm">
-                      <option>General Inquiry</option>
-                      <option>Admissions</option>
-                      <option>Examination</option>
-                      <option>Research</option>
-                      <option>Other</option>
+                    <option>General Inquiry</option>
+                    <option>Admissions</option>
+                    <option>Examination</option>
+                    <option>Research</option>
+                    <option>Other</option>
                   </select>
                 </div>
 
                 <div className="space-y-1.5 sm:space-y-2">
                   <label className="text-[10px] sm:text-xs font-bold text-earth-800 uppercase tracking-wider">Message</label>
-                  <textarea 
-                      rows={4}
-                      placeholder="How can we help you?" 
-                      className="w-full bg-gray-50/80 text-earth-900 border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3.5 focus:outline-none focus:border-turmeric-500 focus:bg-white focus:ring-4 focus:ring-turmeric-500/10 transition-all font-medium resize-none placeholder-gray-400 text-sm"
+                  <textarea
+                    rows={4}
+                    placeholder="How can we help you?"
+                    className="w-full bg-gray-50/80 text-earth-900 border border-gray-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3.5 focus:outline-none focus:border-turmeric-500 focus:bg-white focus:ring-4 focus:ring-turmeric-500/10 transition-all font-medium resize-none placeholder-gray-400 text-sm"
                   ></textarea>
                 </div>
 
@@ -180,7 +180,18 @@ const ContactSection: React.FC = () => {
           </div>
         </div>
       </div>
-    </section>
+
+
+      {/* Section Specific Scroll To Top - Visible only in this section */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-turmeric-500 text-white rounded-full shadow-lg hover:shadow-xl hover:bg-turmeric-600 transition-all items-center justify-center z-20 group"
+        aria-label="Back to Top"
+        title="Back to Top"
+      >
+        <ArrowUp size={24} className="group-hover:-translate-y-1 transition-transform" />
+      </button>
+    </section >
   );
 };
 

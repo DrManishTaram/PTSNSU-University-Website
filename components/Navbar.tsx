@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import { Search, Menu, X, ChevronRight, ChevronDown, Plus, Phone } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useRef } from 'react';
+import { ChevronDown, ChevronRight, X, Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useMobileMenu } from '../context/MobileMenuContext';
 
 interface SubItem {
   name: string;
@@ -16,819 +16,425 @@ interface MegaMenuSection {
 interface NavItem {
   name: string;
   href?: string;
-  megaMenu?: MegaMenuSection[]; // Categorized mega menu
-  submenu?: SubItem[]; // Standard simple dropdown
+  megaMenu?: MegaMenuSection[];
 }
 
 const Navbar: React.FC = () => {
-  const navigate = useNavigate();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeMobileSubmenu, setActiveMobileSubmenu] = useState<string | null>(null);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  // Track JS-level viewport so we can *conditionally render* the mobile header
-  const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      // cleanup resize listener
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
-
-  useEffect(() => {
-    // mark mounted to safely use document in portals
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
-
-  // Prevent body scroll when menu is open
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-      // mark document so we can neutralize filters/backdrop-filters from other components
-      document.documentElement.classList.add('mobile-menu-open');
-    } else {
-      document.body.style.overflow = 'unset';
-      document.documentElement.classList.remove('mobile-menu-open');
-    };
-  }, [mobileMenuOpen]);
-
+  const { isMobileMenuOpen, closeMobileMenu } = useMobileMenu();
+  const [mobileExpandedMenu, setMobileExpandedMenu] = useState<string | null>(null);
   const navLinks: NavItem[] = [
     { name: 'Home', href: '/' },
-    { 
-      name: 'About Us', 
+    {
+      name: 'About Us',
       megaMenu: [
         {
-          title: 'Overview',
+          title: 'Overview', // Single section, will be split automatically by our new logic because items > 6
           items: [
-            { name: 'University Profile', href: '/about' },
+            { name: "Chancellor's Message", href: '/chancellor-message' },
+            { name: "Vice Chancellor's Message", href: '/vc-message' },
+            { name: 'Overview', href: '/overview' },
+            { name: 'युगदृष्टा पंडित शंभूनाथ शुक्ल', href: '/shambhunath-shukla' },
             { name: 'Vision & Mission', href: '/vision-mission' },
-            { name: 'History', href: '/history' },
-            { name: 'Kulgeet', href: '/kulgeet' }
-          ]
-        },
-        {
-          title: 'Leadership',
-          items: [
-            { name: 'Chancellor\'s Message', href: '/chancellor-message' },
-            { name: 'Vice Chancellor\'s Message', href: '/vc-message' }
+            { name: 'Act, Statutes and Ordinances', href: '/act-statutes' },
+            { name: 'List of Affiliated Colleges', href: '/affiliated-colleges' },
+            { name: 'Kulgeet', href: '/kulgeet' },
+            { name: 'Virtual Tour', href: '/virtual-tour' }
           ]
         }
       ]
-    },
-    { 
-      name: 'Administration', 
-      megaMenu: [
-        {
-          title: 'Governance',
-          items: [
-            { name: 'Executive Council', href: '/executive-council' },
-            { name: 'Academic Council', href: '/academic-council' },
-            { name: 'Finance Committee', href: '/finance-committee' },
-            { name: 'Court', href: '/court' }
-          ]
-        },
-        {
-          title: 'Officers',
-          items: [
-            { name: 'Registrar', href: '/registrar' },
-            { name: 'Finance Officer', href: '/finance-officer' },
-            { name: 'Exam Controller', href: '/exam-controller' }
-          ]
-        }
-      ]
-    },
-    { 
-      name: 'Admission and Fee', 
-      megaMenu: [
-        {
-            title: 'Admission',
-            items: [
-                { name: 'Admission Notification', href: '/admission-notification' },
-                { name: 'Apply Online', href: '/apply-online' },
-                { name: 'Entrance Exam', href: '/entrance-exam' }
-            ]
-        },
-        {
-            title: 'Fee Details',
-            items: [
-                { name: 'Fee Structure', href: '/fees' },
-                { name: 'Bank Details', href: '/bank-details' }
-            ]
-        }
-      ]
-    },
-    { 
-        name: 'Academics', 
-        megaMenu: [
-          {
-            title: 'Academic Wing',
-            items: [
-              { name: 'Schools & Departments', href: '/schools-departments' },
-              { name: 'Programmes Offered', href: '/programs' },
-              { name: 'Academic Calendar', href: '/calendar' },
-              { name: 'Syllabus', href: '/syllabus' }
-            ]
-          }
-        ]
-    },
-    { 
-        name: 'Research', 
-        megaMenu: [
-          {
-            title: 'Research',
-            items: [
-              { name: 'Ph.D. Cell', href: '/phd-cell' },
-              { name: 'Ordinance', href: '/ordinance' },
-              { name: 'Ongoing Projects', href: '/projects' }
-            ]
-          }
-        ]
-    },
-    { 
-        name: 'Student Life', 
-        megaMenu: [
-          {
-            title: 'Facilities',
-            items: [
-              { name: 'Hostel', href: '/hostel' },
-              { name: 'Library', href: '/library' },
-              { name: 'Sports', href: '/sports' },
-              { name: 'NCC/NSS', href: '/ncc-nss' },
-              { name: 'Club Culture', href: '/club-culture' }
-            ]
-          }
-        ]
     },
     {
-        name: 'Information Corner',
-        megaMenu: [
-            {
-                title: 'Updates',
-                items: [
-                    { name: 'Notices/Circulars', href: '/notices' },
-                    { name: 'Tenders', href: '/tenders' },
-                    { name: 'Recruitment', href: '/recruitment' },
-                    { name: 'RTI', href: '/rti' }
-                ]
-            }
-        ]
+      name: 'Administration',
+      megaMenu: [
+        {
+          title: 'Governance', // Single section, will be split automatically because items > 6
+          items: [
+            { name: 'Chancellor', href: '/chancellor' },
+            { name: 'Vice-Chancellor', href: '/vc' },
+            { name: 'Registrar', href: '/registrar' },
+            { name: 'Exam Controller', href: '/exam-controller' },
+            { name: 'Executive Council', href: '/executive-council' },
+            { name: 'Finance Officer', href: '/finance-officer' },
+            { name: 'Deans of Faculties', href: '/deans' },
+            { name: 'DSW', href: '/dsw' },
+            { name: 'Premises In-Charge', href: '/premises-in-charge' },
+            { name: 'Heads Of Departments', href: '/hods' },
+            { name: 'Ombudsperson', href: '/ombudsperson' },
+            { name: 'IT Cell', href: '/it-cell' },
+            { name: 'Administrative Login', href: '/admin-login' }
+          ]
+        }
+      ]
+    },
+    {
+      name: 'Admission and Fee',
+      megaMenu: [
+        {
+          title: 'Admission', // Items < 6, so this will stay 1 column
+          items: [
+            { name: 'Admission Notification', href: '/admission-notification' },
+            { name: 'Entrance Exam', href: '/entrance-exam' },
+            { name: 'Fee Refund Policy', href: '/fee-refund-policy' }
+          ]
+        }
+      ]
+    },
+    {
+      name: 'Academics',
+      megaMenu: [
+        {
+          title: 'Academic Wing', // Single section, will be split automatically because items > 6
+          items: [
+            { name: 'Details of Academic Programs', href: '/academic-programs' },
+            { name: 'Schools & Departments', href: '/schools-departments' },
+            { name: 'IQAC Cell', href: '/iqac' },
+            { name: 'Finishing School', href: '/finishing-school' },
+            { name: 'Central Library', href: '/library' },
+            { name: 'भारतीय ज्ञान परंपरा', href: '/indian-knowledge-system' },
+            { name: 'PhD', href: '/phd' },
+            { name: 'Syllabus NEP', href: '/syllabus-nep' },
+            { name: 'Scholarships', href: '/scholarships' },
+            { name: 'Academic Calendar', href: '/calendar' },
+            { name: 'Convocation', href: '/convocation' }
+          ]
+        }
+      ]
+    },
+    {
+      name: 'Research',
+      megaMenu: [
+        {
+          title: 'Research', // Items < 6, so this will stay 1 column
+          items: [
+            { name: 'Research and Development', href: '/research-development' },
+            { name: 'Patent', href: '/patent' }
+          ]
+        }
+      ]
+    },
+    {
+      name: 'Student Life',
+      megaMenu: [
+        {
+          title: 'Facilities & Support', // Items > 6, so this will split into 2 columns
+          items: [
+            { name: 'Student Portal', href: '/student-portal' },
+            { name: 'Campus', href: '/campus' },
+            { name: 'Sports Facilities', href: '/sports' },
+            { name: 'Placement Cell', href: '/placement-cell' },
+            { name: 'Anti Ragging Cell', href: '/anti-ragging' },
+            { name: 'Academic Bank Of Credit (ABC)', href: '/abc' },
+            { name: 'National Cadet Corps (NCC)', href: '/ncc' },
+            { name: 'National Service Scheme (NSS)', href: '/nss' },
+            { name: 'Student Grievance Cell', href: '/grievance-cell' },
+            { name: 'Equal Opportunity Cell', href: '/equal-opportunity' },
+            { name: 'Student Council', href: '/student-council' },
+            { name: 'Club Culture', href: '/club-culture' }
+          ]
+        }
+      ]
+    },
+    {
+      name: 'Information Corner',
+      megaMenu: [
+        {
+          title: 'Information', // Items <= 6, so this will stay 1 column
+          items: [
+            { name: 'RTI Cell', href: '/rti-cell' },
+            { name: 'Tender Notice', href: '/tender-notice' },
+            { name: 'Tender List', href: '/tender-list' },
+            { name: 'External Links', href: '/external-links' },
+            { name: 'Our Concerns and Directions', href: '/concerns-directions' },
+            { name: "Vice-Chancellor's Communique", href: '/vc-communique' }
+          ]
+        }
+      ]
     },
     { name: 'Online Services', href: '/online-services' },
-    { name: 'Event Gallery', href: '/gallery' }
+    { name: 'Event Gallery', href: '/gallery' },
+    { name: 'NAAC', href: '/naac' }
   ];
 
-  const toggleMobileSubmenu = (name: string) => {
-    setActiveMobileSubmenu(activeMobileSubmenu === name ? null : name);
+  // Helper function to count total items in mega menu
+  const getTotalItems = (megaMenu: MegaMenuSection[]) => {
+    return megaMenu.reduce((total, section) => total + section.items.length, 0);
   };
 
-  // Search functionality - searches through all navigation links
-  const handleSearch = (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    
-    if (!searchQuery.trim()) return;
-    
-    const query = searchQuery.toLowerCase().trim();
-    
-    // Search through all nav links and their submenus
-    for (const link of navLinks) {
-      // Check main link name
-      if (link.name.toLowerCase().includes(query) && link.href) {
-        navigate(link.href);
-        setIsSearchOpen(false);
-        setSearchQuery('');
-        return;
-      }
-      
-      // Check mega menu items
-      if (link.megaMenu) {
-        for (const section of link.megaMenu) {
-          // Check section title
-          if (section.title.toLowerCase().includes(query)) {
-            if (section.items.length > 0) {
-              navigate(section.items[0].href);
-              setIsSearchOpen(false);
-              setSearchQuery('');
-              return;
-            }
-          }
-          // Check individual items
-          for (const item of section.items) {
-            if (item.name.toLowerCase().includes(query)) {
-              navigate(item.href);
-              setIsSearchOpen(false);
-              setSearchQuery('');
-              return;
-            }
-          }
-        }
-      }
-      
-      // Check submenu items
-      if (link.submenu) {
-        for (const item of link.submenu) {
-          if (item.name.toLowerCase().includes(query)) {
-            navigate(item.href);
-            setIsSearchOpen(false);
-            setSearchQuery('');
-            return;
-          }
-        }
-      }
+  // Helper to split menu into balanced columns if items > 6
+  const getMenuColumns = (megaMenu: MegaMenuSection[], totalItems: number): [MegaMenuSection[], MegaMenuSection[]] => {
+    if (totalItems <= 6) return [megaMenu, []];
+
+    // Case 1: Single Section -> Split Items
+    if (megaMenu.length === 1) {
+      const section = megaMenu[0];
+      const mid = Math.ceil(section.items.length / 2);
+      return [
+        [{ ...section, items: section.items.slice(0, mid) }],
+        [{ ...section, title: '', items: section.items.slice(mid) }] // Empty title for alignment
+      ];
     }
-    
-    // If no match found, navigate to a search results page or show message
-    alert(`No results found for "${searchQuery}". Try searching for: Admission, Programs, Hostel, Library, etc.`);
+
+    // Case 2: Multiple Sections -> Balance Sections
+    const left: MegaMenuSection[] = [];
+    const right: MegaMenuSection[] = [];
+    let leftCount = 0;
+    const half = totalItems / 2;
+
+    megaMenu.forEach(section => {
+      // Fill left column until it reaches roughly half, but ensure at least one section in left
+      if (leftCount < half || left.length === 0) {
+        left.push(section);
+        leftCount += section.items.length;
+      } else {
+        right.push(section);
+      }
+    });
+
+    return [left, right];
   };
- 
+
   return (
     <>
-    <style>{`
-      /* Hide TopBar on mobile */
-      @media (max-width: 768px) {
-        #topbar {
-          display: none !important;
-        }
-      }
+      <div className="hidden md:block bg-[#071133] shadow-md relative z-50">
+        <nav className="max-w-screen-xl mx-auto px-4">
+          {/* Decreased vertical padding (py-0) and use flex items to define height */}
+          <div className="flex justify-center items-center gap-1 text-[13px] font-medium text-white h-[45px]">
 
-      /* Mobile navbar header styles - TWO SECTION LAYOUT */
-      @media (max-width: 768px) {
-        .mobile-navbar-container {
-          display: flex !important;
-          flex-direction: column !important;
-          gap: 0 !important;
-          width: 100% !important;
-          padding: 0 !important;
-          box-sizing: border-box !important;
-          position: relative !important;
-          background: transparent !important;
-          border: none !important;
-          /* give a subtle rounded shape so the blue glow appears around edges */
-          border-radius: 10px !important;
-          margin: 0 !important;
-          /* prominent light-blue halo/glow around mobile header */
-          box-shadow: 0 8px 30px rgba(3,169,244,0.18), 0 0 0 6px rgba(3,169,244,0.06);
-          transition: box-shadow 240ms ease, transform 200ms ease;
-          overflow: hidden !important;
-        }
+            {navLinks.map(link => {
+              const totalItems = link.megaMenu ? getTotalItems(link.megaMenu) : 0;
+              const useTwoColumns = totalItems > 6;
+              const [leftCol, rightCol] = (useTwoColumns && link.megaMenu)
+                ? getMenuColumns(link.megaMenu, totalItems)
+                : [[], []];
 
-        /* Top Section: Logo + Names (70% - Navy Blue Background) */
-        .mobile-navbar-top {
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          gap: 0.75rem !important;
-          padding: 1rem 0.5rem !important;
-          width: 100% !important;
-          box-sizing: border-box !important;
-          min-height: auto !important;
-          background: #071133 !important;
-          border-bottom: none !important;
-          overflow: visible !important;
-          flex: 0 0 auto !important;
-        }
-
-        .mobile-navbar-logo {
-          /* reduced by 25% for mobile: 50px -> 38px */
-          width: 38px !important;
-          height: 38px !important;
-          flex-shrink: 0 !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          border-radius: 50% !important;
-          margin-right: 0.5rem !important;
-          background: white !important;
-          padding: 3px !important;
-          box-sizing: border-box !important;
-        }
-
-        .mobile-navbar-logo img {
-          width: 100% !important;
-          height: 100% !important;
-          object-fit: contain !important;
-          display: block !important;
-          border-radius: 50% !important;
-        }
-
-        /* Names Container - Right side */
-        .mobile-navbar-names {
-          /* Display names vertically on separate lines */
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-          gap: 0.1rem !important;
-          flex: 1 !important;
-          min-width: 0 !important;
-          text-align: center !important;
-          margin-left: 0 !important;
-        }
-
-        .mobile-navbar-names h1 {
-          font-family: 'Arial', sans-serif !important;
-          font-weight: 700 !important;
-          font-size: 12px !important;
-          line-height: 1.2 !important;
-          letter-spacing: -0.3px !important;
-          color: #ffffff !important;
-          margin: 0 !important;
-          padding: 0 !important;
-          white-space: nowrap !important;
-          overflow: hidden !important;
-          text-overflow: ellipsis !important;
-          min-width: 0 !important;
-          text-align: center !important;
-          display: block !important;
-          max-width: 100% !important;
-        }
-
-        .mobile-navbar-names h2 {
-          /* Prefer Devanagari-capable fonts first, fall back to system fonts */
-          font-family: 'Noto Sans Devanagari', 'Mangal', 'Nirmala UI', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;
-          font-weight: 700 !important;
-          font-size: 11px !important;
-          line-height: 1.2 !important;
-          letter-spacing: -0.2px !important;
-          color: #ffffff !important;
-          margin: 0 !important;
-          padding: 0 !important;
-          white-space: nowrap !important;
-          display: block !important;
-          overflow: hidden !important;
-          text-overflow: ellipsis !important;
-          min-width: 0 !important;
-          text-align: center !important;
-          max-width: 100% !important;
-        }
-
-        /* Contact Section - Bottom (30% - Light Background) */
-        .mobile-navbar-contact {
-          display: flex !important;
-          flex-direction: row !important;
-          align-items: center !important;
-          justify-content: center !important;
-          gap: 1rem !important;
-          width: 100% !important;
-          padding: 0.5rem 0.5rem !important;
-          background: #f0f9ff !important;
-          border-top: none !important;
-          box-sizing: border-box !important;
-          position: relative !important;
-          flex-wrap: wrap !important;
-          flex: 0 0 auto !important;
-        }
-
-        .mobile-navbar-contact-items {
-          display: flex !important;
-          flex-direction: row !important;
-          align-items: center !important;
-          justify-content: center !important;
-          gap: 1rem !important;
-          flex: 0 1 auto !important;
-          min-width: 0 !important;
-          flex-wrap: nowrap !important;
-        }
-
-        .mobile-navbar-contact-item {
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          gap: 0.3rem !important;
-          font-size: 10px !important;
-          color: #0099ff !important;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-          white-space: nowrap !important;
-        }
-
-        .mobile-navbar-contact-item svg {
-          width: 14px !important;
-          height: 14px !important;
-          color: #0099ff !important;
-          flex-shrink: 0 !important;
-        }
-
-        /* Hamburger Menu - In contact section on the right */
-        .mobile-navbar-hamburger {
-          padding: 0.35rem !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          flex-shrink: 0 !important;
-          color: #1f2937 !important;
-          background: transparent !important;
-          border: 2px solid #071133 !important;
-          border-radius: 6px !important;
-          transition: all 0.3s ease !important;
-          cursor: pointer !important;
-          z-index: 10 !important;
-          width: 32px !important;
-          height: 32px !important;
-          margin-left: auto !important;
-        }
-
-        .mobile-navbar-hamburger:hover {
-          background: #071133 !important;
-          transform: scale(1.05) !important;
-        }
-
-        .mobile-navbar-hamburger:hover svg {
-          color: #ffffff !important;
-        }
-
-        .mobile-navbar-hamburger svg {
-          color: #1f2937 !important;
-          width: 18px !important;
-          height: 18px !important;
-          transition: color 0.3s ease !important;
-        }
-      }
-
-      /* Responsive adjustments for extra small screens */
-      @media (max-width: 360px) {
-        .mobile-navbar-top {
-          padding: 0.8rem 0.25rem !important;
-          gap: 0.5rem !important;
-          min-height: auto !important;
-          overflow-x: auto !important;
-        }
-
-        .mobile-navbar-logo {
-          /* extra-small screens: reduced by 25% from 46px -> 35px */
-          width: 35px !important;
-          height: 35px !important;
-          margin-right: 0.3rem !important;
-          padding: 2px !important;
-        }
-
-        .mobile-navbar-names {
-          gap: 0.05rem !important;
-        }
-
-        .mobile-navbar-names h1 {
-          font-size: 11px !important;
-          line-height: 1.15 !important;
-        }
-
-        .mobile-navbar-names h2 {
-          font-size: 10px !important;
-          line-height: 1.15 !important;
-        }
-
-        .mobile-navbar-contact {
-          gap: 0.3rem !important;
-          padding: 0.5rem 0.25rem !important;
-        }
-
-        .mobile-navbar-contact-items {
-          gap: 0.3rem !important;
-        }
-
-        .mobile-navbar-contact-item {
-          font-size: 9px !important;
-        }
-
-        .mobile-navbar-contact-item svg {
-          width: 12px !important;
-          height: 12px !important;
-        }
-      }
-
-      /* Defensive: ensure mobile header is hidden on desktop/laptop even if Tailwind isn't loaded */
-      @media (min-width: 768px) {
-        .mobile-navbar-container { display: none !important; }
-        .mobile-navbar-hamburger { display: none !important; }
-      }
-
-      /* Force mobile side-panel/backdrop above everything when rendered into body */
-      #mobile-side-panel {
-        position: fixed !important;
-        right: 0 !important;
-        top: 0 !important;
-        height: 100vh !important;
-        z-index: 9999999999 !important; /* extremely high */
-        background: rgba(255,255,255,1) !important; /* solid white to avoid dim-through */
-      }
-
-      #mobile-side-backdrop {
-        position: fixed !important;
-        inset: 0 !important;
-        z-index: 9999999998 !important;
-        background: transparent !important; /* keep transparent to avoid dimming */
-      }
-
-      /* When mobile menu is open, neutralize filters/backdrop-filters/opacity on page elements
-         This prevents other components using backdrop-blur/opacity from visually dimming the app */
-      .mobile-menu-open *,
-      .mobile-menu-open *::before,
-      .mobile-menu-open *::after,
-      .mobile-menu-open::before,
-      .mobile-menu-open::after,
-      .mobile-menu-open html,
-      .mobile-menu-open body {
-        filter: none !important;
-        -webkit-filter: none !important;
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-        opacity: 1 !important;
-        mix-blend-mode: normal !important;
-        transition: none !important;
-      }
-
-      /* Allow the side panel and its backdrop to keep their appearance */
-      .mobile-menu-open #mobile-side-panel,
-      .mobile-menu-open #mobile-side-backdrop {
-        filter: none !important;
-        backdrop-filter: none !important;
-        opacity: 1 !important;
-        transition: none !important;
-      }
-     `}</style>
-    <nav 
-      className={`sticky top-0 z-50 w-full transition-all duration-500 bg-white animate-slide-down ${
-        isScrolled ? 'shadow-lg' : 'shadow-sm'
-      }`}
-    >
-        {/* Row 1: Branding & Actions */}
-      <div className="relative bg-white z-30">
-        <div className="container mx-auto px-2 sm:px-4 lg:px-6 xl:max-w-[95%] py-2 md:py-3 md:min-h-[60px] sm:md:min-h-[80px] md:min-h-[100px]">
-            
-            {/* Mobile Layout - HORIZONTAL DESIGN */}
-            {isMobile && (
-              <div className="mobile-navbar-container">
-                {/* Top Section: Logo + Names */}
-                <div className="mobile-navbar-top">
-                  {/* Combined link so logo and names sit tightly together and center as a group */}
-                  <Link to="/" className="group cursor-pointer flex items-center gap-1">
-                      <div className="mobile-navbar-logo flex-shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-2">
-                          <img 
-                              src="/logo.jpg" 
-                              alt="University Logo" 
-                              className="object-contain drop-shadow-md hover:brightness-110 transition-all"
-                          />
-                      </div>
-                      <div className="mobile-navbar-names">
-                          <h1>
-                              Pandit Shambhunath Shukla Vishwavidyalaya, Shahdol (M.P.)
-                          </h1>
-                          <h2>
-                              पंडित शंभूनाथ शुक्ला विश्‍वविद्यालय, शहडोल (म. प्र.)
-                          </h2>
-                      </div>
-                  </Link>
-                </div>
-
-                {/* Bottom Section: Contact Information */}
-                <div className="mobile-navbar-contact">
-                    <div className="mobile-navbar-contact-items">
-                        <div className="mobile-navbar-contact-item">
-                            <Phone size={18} strokeWidth={2.5} />
-                            <span>Phone: 07652-240917</span>
-                        </div>
-                        <div className="mobile-navbar-contact-item">
-                            <span style={{ width: '18px', height: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: '#0099ff', fontSize: '14px', fontWeight: 'bold' }}>✉</span>
-                            <span>ptsnuniversity@gmail.com</span>
-                        </div>
-                    </div>
-                    {/* Right: Hamburger Menu */}
-                    <button 
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="mobile-navbar-hamburger text-gray-700 focus:outline-none"
-                        aria-label="Toggle menu"
+              return (
+                <div
+                  key={link.name}
+                  className="relative group h-full flex items-center"
+                >
+                  {link.href ? (
+                    <Link
+                      to={link.href}
+                      className="px-3 py-1.5 inline-flex items-center gap-1 whitespace-nowrap rounded transition-all duration-200 hover:bg-[#3b82f6]/20 hover:text-blue-200"
                     >
-                        {mobileMenuOpen ? <X size={22} strokeWidth={2.5} /> : <Menu size={22} strokeWidth={2.5} />}
-                    </button>
-                </div>
-              </div>
-            )}
-
-            {/* Mobile menu panel (visible on small screens) */}
-            {isMobile && mounted &&
-              createPortal(
-                <>
-                  {/* Side panel: slides in from right. Rendered into document.body to escape stacking contexts. */}
-                  <div
-                    className={`md:hidden fixed top-0 right-0 h-full shadow-lg border-l border-gray-200 transform transition-transform duration-350 ease-in-out`.trim()
-                      + ` ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`
-                    }
-                    id="mobile-side-panel"
-                    style={{ width: '70vw', maxWidth: '420px', background: 'rgba(255,255,255,1)' }}
-                    aria-hidden={!mobileMenuOpen}
-                  >
-                    <div className="px-3 py-4 h-full overflow-auto">
-                      <div className="flex items-center justify-between mb-2">
-                        <div />
-                        <button
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="p-2 rounded-md text-gray-700 hover:bg-gray-100"
-                          aria-label="Close menu"
-                        >
-                          <ChevronRight size={20} strokeWidth={2.5} />
-                        </button>
-                      </div>
-                      <nav>
-                        <ul className="space-y-1">
-                          {navLinks.map((link) => (
-                            <li key={link.name} className="last:border-b-0 border-b border-gray-100">
-                              {link.href && !link.megaMenu && !link.submenu ? (
-                                <Link to={link.href} onClick={() => setMobileMenuOpen(false)} className="block py-3 text-base font-semibold text-gray-800">
-                                  {link.name}
-                                </Link>
-                              ) : (
-                                <div>
-                                  <button
-                                    type="button"
-                                    onClick={() => toggleMobileSubmenu(link.name)}
-                                    className="w-full flex items-center justify-between py-3 text-left"
-                                  >
-                                    <span className="font-semibold text-gray-800">{link.name}</span>
-                                    {isMobile ? (
-                                      <Plus size={18} strokeWidth={2.5} className={`transition-transform ${activeMobileSubmenu === link.name ? 'rotate-45' : ''}`} />
-                                    ) : (
-                                      <ChevronDown className={`transition-transform ${activeMobileSubmenu === link.name ? 'rotate-180' : ''}`} />
-                                    )}
-                                  </button>
-
-                                  <div className={`overflow-hidden transition-[max-height] duration-300 ${activeMobileSubmenu === link.name ? 'max-h-[800px] py-2' : 'max-h-0'}`}>
-                                    {link.megaMenu && link.megaMenu.map((section) => (
-                                      <div key={section.title} className="pl-4 pb-2">
-                                        <div className="text-sm font-medium text-gray-500 py-1">{section.title}</div>
-                                        <ul className="pl-2">
-                                          {section.items.map((item) => (
-                                            <li key={item.name}>
-                                              <Link to={item.href} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-gray-700">
-                                                {item.name}
-                                              </Link>
-                                            </li>
-                                          ))}
-                                        </ul>
-                                      </div>
-                                    ))}
-
-                                    {link.submenu && link.submenu.map((item) => (
-                                      <div key={item.name} className="pl-4 pb-2">
-                                        <Link to={item.href} onClick={() => setMobileMenuOpen(false)} className="block py-2 text-gray-700">
-                                          {item.name}
-                                        </Link>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </nav>
-                    </div>
-                  </div>
-
-                  {/* Backdrop to dim content and close panel when clicked */}
-                  <div
-                    className={`md:hidden fixed inset-0 transition-opacity duration-300 ${mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    aria-hidden={!mobileMenuOpen}
-                    id="mobile-side-backdrop"
-                    style={{ background: 'transparent' }}
-                  />
-                </>,
-                document.body
-              )}
-
-            {/* Desktop Layout: Grid for perfect centering */}
-            <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-
-                {/* Left: Spacer */}
-                <div></div>
-
-                {/* Center: Branding (Logo + Name) */}
-                <Link to="/" className="flex items-center justify-center gap-6 group cursor-pointer text-center relative z-10">
-                    <div className="relative flex-shrink-0 transition-transform duration-500 group-hover:rotate-3 group-hover:scale-110 animate-zoom-in w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20">
-                        <img 
-                            src="/logo.jpg" 
-                            alt="Pandit Shambhunath Shukla University Logo" 
-                            className="w-full h-full object-contain drop-shadow-md filter contrast-125 hover:brightness-110 transition-all"
-                            style={{ width: '100%', height: '100%', maxWidth: '80px', maxHeight: '80px', objectFit: 'contain' }}
-                        />
-                    </div>
-                    <div className="flex flex-col items-center justify-center">
-                        <h1 className="font-serif font-extrabold leading-tight text-sm sm:text-base md:text-xl lg:text-2xl tracking-wide uppercase drop-shadow-sm text-center animate-fade-in" style={{ color: '#070738' }}>
-                            Pandit Shambhunath Shukla Vishwavidyalaya, Shahdol (M.P.)
-                        </h1>
-                        <h2 className="font-serif font-bold leading-snug text-sm sm:text-base md:text-xl lg:text-2xl tracking-wide mt-1 text-center animate-fade-in" style={{ animationDelay: '0.2s', color: '#070738' }}>
-                            पंडित शंभूनाथ शुक्ला विश्‍वविद्यालय, शहडोल (म. प्र.)
-                        </h2>
-                    </div>
-                </Link>
-
-                {/* Right: Search Action */}
-                <div className="flex items-center justify-end">
-                    <div className="relative group">
-                        <button 
-                            onClick={() => setIsSearchOpen(!isSearchOpen)}
-                            className={`transition-all duration-300 p-2.5 rounded-full hover:bg-blue-50 text-blue-600 ${isSearchOpen ? 'bg-blue-50' : 'hover:bg-blue-100'}`}
-                        >
-                            {isSearchOpen ? <X size={20} strokeWidth={2.5} /> : <Search size={20} strokeWidth={2.5} />}
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </div> {/* close inner container so the following nav can be full-bleed */}
-
-        {/* Desktop full-bleed navigation (spans entire viewport) */}
-        <div className="hidden md:block bg-[#071133] border-t-0 mt-0">
-          <nav className="w-full">
-            <div className="max-w-screen-xl mx-auto px-4">
-              <div className="flex items-center justify-center gap-6 py-3 text-sm font-medium flex-nowrap whitespace-nowrap">
-               {navLinks.map((link) => (
-                 <div key={link.name} className="relative group inline-flex">
-                  {link.href && !link.megaMenu && !link.submenu ? (
-                    <Link to={link.href} className="inline-block text-white font-medium leading-tight hover:text-turmeric-300 px-4 py-1 whitespace-nowrap">
                       {link.name}
                     </Link>
-                   ) : (
-                     <div className="inline-flex">
-                      <button type="button" className="inline-flex items-center gap-1 text-white font-medium leading-tight hover:text-turmeric-300 px-4 py-1 whitespace-nowrap">
-                        <span className="whitespace-nowrap">{link.name}</span>
-                        {(link.megaMenu || link.submenu) && <ChevronDown size={12} className="text-white" />}
+                  ) : (
+                    <button className="px-3 py-1.5 inline-flex items-center gap-1 whitespace-nowrap rounded transition-all duration-200 hover:bg-[#3b82f6]/20 hover:text-blue-200 cursor-default">
+                      {link.name}
+                      {link.megaMenu && (
+                        <ChevronDown
+                          size={12}
+                          className="transition-transform duration-300 group-hover:rotate-180"
+                        />
+                      )}
+                    </button>
+                  )}
+
+                  {/* MEGA MENU DROPDOWN */}
+                  {link.megaMenu && (
+                    <div
+                      className="absolute left-0 top-full pt-0 w-max min-w-[300px] transition-all duration-200 ease-out origin-top-left opacity-0 invisible -translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 text-left"
+                    >
+                      <div className="bg-white/95 backdrop-blur-md shadow-xl rounded-lg border-t-2 border-blue-600 overflow-hidden ring-1 ring-black/5 mt-1">
+                        <div className="p-5">
+                          {useTwoColumns ? (
+                            // Two-column layout for > 6 items
+                            <div className="grid grid-cols-2 gap-8 relative">
+                              {/* Left Column */}
+                              <div className="space-y-5">
+                                {leftCol.map((section, idx) => (
+                                  <div key={idx + section.title}>
+                                    <div className={`flex items-center gap-2 mb-3 pb-2 border-b border-gray-100 ${!section.title ? 'invisible' : ''}`}>
+                                      <span className="w-1 h-4 bg-blue-600 rounded-full" />
+                                      <h4 className="text-xs font-bold uppercase text-[#071133] tracking-wide">
+                                        {section.title || 'Spacer'}
+                                      </h4>
+                                    </div>
+                                    <ul className="space-y-0.5">
+                                      {section.items.map(item => (
+                                        <li key={item.name}>
+                                          <Link
+                                            to={item.href}
+                                            className="block px-2 py-1.5 rounded text-[13px] text-blue-700 font-medium hover:text-blue-900 hover:bg-pink-50 transition-all duration-200 group/item flex items-center gap-2"
+                                          >
+                                            <div className="w-1 h-1 rounded-full bg-blue-400 group-hover/item:bg-blue-600 transition-colors" />
+                                            {item.name}
+                                          </Link>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ))}
+                              </div>
+
+                              {/* Right Column */}
+                              <div className="space-y-5">
+                                {rightCol.map((section, idx) => (
+                                  <div key={idx + section.title}>
+                                    {/* Render header invisibly if title is empty to keep alignment */}
+                                    <div className={`flex items-center gap-2 mb-3 pb-2 border-b border-gray-100 ${!section.title ? 'invisible select-none' : ''}`}>
+                                      <span className="w-1 h-4 bg-blue-600 rounded-full" />
+                                      <h4 className="text-xs font-bold uppercase text-[#071133] tracking-wide">
+                                        {section.title || 'Spacer'}
+                                      </h4>
+                                    </div>
+                                    <ul className="space-y-0.5">
+                                      {section.items.map(item => (
+                                        <li key={item.name}>
+                                          <Link
+                                            to={item.href}
+                                            className="block px-2 py-1.5 rounded text-[13px] text-blue-700 font-medium hover:text-blue-900 hover:bg-pink-50 transition-all duration-200 group/item flex items-center gap-2"
+                                          >
+                                            <div className="w-1 h-1 rounded-full bg-blue-400 group-hover/item:bg-blue-600 transition-colors" />
+                                            {item.name}
+                                          </Link>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ))}
+                              </div>
+
+                              {/* Vertical separator between columns */}
+                              <div className="absolute left-1/2 top-0 bottom-0 w-[2px] bg-blue-600/30" />
+                            </div>
+                          ) : (
+                            // Single column layout for ≤ 6 items
+                            <div className="space-y-5">
+                              {link.megaMenu.map(section => (
+                                <div key={section.title}>
+                                  <div className="flex items-center gap-2 mb-3 pb-2 border-b border-gray-100">
+                                    <span className="w-1 h-4 bg-blue-600 rounded-full" />
+                                    <h4 className="text-xs font-bold uppercase text-[#071133] tracking-wide">
+                                      {section.title}
+                                    </h4>
+                                  </div>
+
+                                  <ul className="space-y-0.5">
+                                    {section.items.map(item => (
+                                      <li key={item.name}>
+                                        <Link
+                                          to={item.href}
+                                          className="block px-2 py-1.5 rounded text-[13px] text-blue-700 font-medium hover:text-blue-900 hover:bg-pink-50 transition-all duration-200 group/item flex items-center gap-2"
+                                        >
+                                          <div className="w-1 h-1 rounded-full bg-blue-400 group-hover/item:bg-blue-600 transition-colors" />
+                                          {item.name}
+                                        </Link>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+          </div>
+        </nav>
+      </div>
+
+      {/* Mobile Sidebar - Only visible on mobile */}
+      <>
+        {/* Backdrop Overlay */}
+        {isMobileMenuOpen && (
+          <div
+            className="md:hidden fixed inset-0 bg-black/50 z-[90] transition-opacity duration-300"
+            onClick={closeMobileMenu}
+          />
+        )}
+
+        {/* Sidebar */}
+        <div
+          className={`md:hidden fixed top-0 right-0 h-full w-[70%] bg-white shadow-2xl z-[100] transform transition-transform duration-300 ease-in-out overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+            }`}
+        >
+          {/* Sidebar Header */}
+          <div className="sticky top-0 bg-gray-100 text-black p-4 flex items-center justify-between shadow-md z-10">
+            <h2 className="text-lg font-bold">Menu</h2>
+            <button
+              onClick={closeMobileMenu}
+              className="p-2 hover:bg-gray-200 rounded-md transition-colors"
+              aria-label="Close Menu"
+            >
+              <ChevronRight size={24} className="text-black" />
+            </button>
+          </div>
+
+          {/* Sidebar Navigation */}
+          <nav className="p-4">
+            <ul className="space-y-2">
+              {navLinks.map((link) => (
+                <li key={link.name}>
+                  {link.href ? (
+                    // Simple link without submenu
+                    <Link
+                      to={link.href}
+                      onClick={closeMobileMenu}
+                      className="block px-4 py-3 text-[#071133] font-semibold rounded-md hover:bg-blue-50 transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  ) : (
+                    // Accordion for mega menu
+                    <div>
+                      <button
+                        onClick={() =>
+                          setMobileExpandedMenu(
+                            mobileExpandedMenu === link.name ? null : link.name
+                          )
+                        }
+                        className="w-full flex items-center justify-between px-4 py-3 text-[#071133] font-semibold rounded-md hover:bg-blue-50 transition-colors"
+                      >
+                        <span>{link.name}</span>
+                        <Plus
+                          size={18}
+                          className={`text-blue-600 transition-transform duration-200 ${mobileExpandedMenu === link.name ? 'rotate-45' : ''
+                            }`}
+                        />
                       </button>
 
-                       {(link.megaMenu || link.submenu) && (
-                        <div className="absolute left-1/2 transform -translate-x-1/2 hidden group-hover:block mt-2 w-[760px] bg-white border rounded shadow-lg p-4 z-50">
-                           <div className="grid grid-cols-2 gap-4">
-                             {link.megaMenu?.map((section) => (
-                               <div key={section.title}>
-                                 <div className="text-sm font-semibold text-gray-600 mb-2">{section.title}</div>
-                                 <ul className="text-sm">
-                                   {section.items.map((item) => (
-                                     <li key={item.name}>
-                                       <Link to={item.href} className="block py-1 text-gray-700 hover:text-blue-600">{item.name}</Link>
-                                     </li>
-                                   ))}
-                                 </ul>
-                               </div>
-                             ))}
-
-                             {link.submenu && (
-                               <div>
-                                 <ul>
-                                   {link.submenu.map((item) => (
-                                     <li key={item.name}>
-                                       <Link to={item.href} className="block py-1 text-gray-700 hover:text-blue-600">{item.name}</Link>
-                                     </li>
-                                   ))}
-                                 </ul>
-                               </div>
-                             )}
-                           </div>
-                         </div>
-                       )}
-                     </div>
-                   )}
-                 </div>
-               ))}
-              </div>
-            </div>
+                      {/* Submenu Items */}
+                      {mobileExpandedMenu === link.name && link.megaMenu && (
+                        <div className="mt-2 ml-4 space-y-1 border-l-2 border-blue-200 pl-4">
+                          {link.megaMenu.map((section, sectionIdx) => (
+                            <div key={sectionIdx}>
+                              {section.title && (
+                                <h4 className="text-xs font-bold uppercase text-blue-600 tracking-wide mb-2 mt-3 first:mt-0">
+                                  {section.title}
+                                </h4>
+                              )}
+                              <ul className="space-y-1">
+                                {section.items.map((item) => (
+                                  <li key={item.name}>
+                                    <Link
+                                      to={item.href}
+                                      onClick={closeMobileMenu}
+                                      className="block px-3 py-2 text-sm text-gray-700 rounded hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                                    >
+                                      {item.name}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
           </nav>
         </div>
-
-        {/* Search Overlay */}
-        <div className={`absolute top-full left-0 w-full bg-white border-t border-gray-100 shadow-lg transition-all duration-300 overflow-hidden z-50 ${isSearchOpen ? 'h-14 sm:h-16 opacity-100 visible' : 'h-0 opacity-0 invisible'}`}>
-            <form onSubmit={handleSearch} className="container mx-auto px-2 sm:px-4 h-full flex items-center justify-center">
-                <div className="relative w-full max-w-lg">
-                    <input 
-                        type="text" 
-                        placeholder="Search..." 
-                        className="w-full pl-9 sm:pl-10 pr-16 sm:pr-20 py-1.5 sm:py-2 bg-white border-2 border-blue-500 rounded-full focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-200 transition-all text-gray-700 text-sm"
-                        autoFocus={isSearchOpen}
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                    />
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-600" size={18} strokeWidth={2.5} />
-                    <button 
-                        type="submit"
-                        className="absolute right-1 top-1/2 -translate-y-1/2 bg-blue-600 text-white px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-semibold hover:bg-blue-700 transition-colors"
-                    >
-                        Search
-                    </button>
-                </div>
-            </form>
-        </div>
-      </div>
-    </nav>
+      </>
     </>
   );
 };

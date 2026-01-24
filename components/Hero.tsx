@@ -1,170 +1,137 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, PlayCircle } from 'lucide-react';
 
 const slides = [
   {
     image: "/8.jpg",
-    title: "Education is the Key to Success",
-    subtitle: "Pandit Shambhu Nath Shukla Vishwavidyalaya is committed to creating a vibrant and ethical campus culture, fostering academic excellence."
+    title: "Expert Faculty",
+    subtitle: "Our distinguished faculty members are leaders in their respective fields, dedicated to mentoring the next generation."
   },
   {
     image: "/9.jpg",
-    title: "Empowering Minds, Enriching Future",
-    subtitle: "State-of-the-art laboratories and research facilities designed to push the boundaries of knowledge in Science and Arts."
+    title: "Academic Excellence",
+    subtitle: "Fostering an environment of intellectual curiosity and rigorous academic pursuit."
   },
   {
     image: "/10.jpg",
-    title: "A Legacy of Academic Leadership",
-    subtitle: "Join a diverse community of scholars and leaders dedicated to serving society through education and integrity."
+    title: "Research & Innovation",
+    subtitle: "Pioneering research initiatives that contribute to societal growth and development."
+  },
+  {
+    image: "/11.jpg",
+    title: "Student Mentorship",
+    subtitle: "Personalized guidance and support to help every student achieve their full potential."
+  },
+  {
+    image: "/12.jpg",
+    title: "Global Perspective",
+    subtitle: "Preparing students for a connected world through diverse learning experiences."
   }
 ];
 
 const Hero: React.FC = () => {
   const [current, setCurrent] = useState(0);
-  const [headerHeight, setHeaderHeight] = useState(148);
-  const [isMobileViewport, setIsMobileViewport] = useState<boolean>(false);
 
-  // Measure header heights (TopBar + Navbar) so hero exactly fills remaining viewport
-  useEffect(() => {
-    const measure = () => {
-      const topbar = document.getElementById('topbar');
-      const navbar = document.querySelector('nav');
-      const topH = topbar ? topbar.clientHeight : 0;
-      const navH = navbar ? (navbar as HTMLElement).clientHeight : 0;
-      setHeaderHeight(topH + navH);
-    };
-
-    measure();
-    // also set mobile viewport flag so we only clamp on small screens
-    const checkMobile = () => setIsMobileViewport(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', measure);
-    window.addEventListener('resize', checkMobile);
-    // also re-measure after fonts/images load
-    window.addEventListener('load', measure);
-    return () => {
-      window.removeEventListener('resize', measure);
-      window.removeEventListener('resize', checkMobile);
-      window.removeEventListener('load', measure);
-    };
-  }, []);
+  // Ensure max 10 images (5 paired slides)
+  const activeSlides = slides.slice(0, 10);
+  const numSlides = Math.ceil(activeSlides.length / 2);
 
   // Auto-slide effect
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 7000); 
+      setCurrent((prev) => (prev + 1) % numSlides);
+    }, 7000);
     return () => clearInterval(timer);
-  }, []);
-
-  const nextSlide = () => setCurrent((prev) => (prev + 1) % slides.length);
-  const prevSlide = () => setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+  }, [numSlides]);
 
   return (
-    // Make hero fill available viewport height (accounting for header). Show two images side-by-side on md+.
-    <section
-      className="relative w-full overflow-hidden group"
-      style={{
-        // Keep hero compact on mobile so the card reads as a framed element rather than a full-bleed poster
-        height: isMobileViewport ? 'auto' : `calc(100vh - ${headerHeight + 60}px)`,
-        // increased mobile sizes by an additional 30%
-        maxHeight: isMobileViewport ? '372px' : `calc(100vh - ${headerHeight + 60}px)`,
-        minHeight: isMobileViewport ? '237px' : '300px',
-        padding: isMobileViewport ? '0.75rem 0' : undefined,
-        backgroundColor: 'transparent'
-      }}
-    >
-      {/* Dual-tone background: top half white, bottom half wavy solid color (behind the card) */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Top half - light teal wavy */}
-        <div className="absolute top-0 left-0 right-0 h-[110px] sm:h-1/2 overflow-hidden" style={{ opacity: isMobileViewport ? 0.72 : 1, filter: isMobileViewport ? 'saturate(1.15) contrast(1.05)' : 'saturate(1.05) contrast(1.02)' }}>
-          <svg className="w-full h-full block" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill="#89CFF0" d="M0,224L48,213.3C96,203,192,181,288,170.7C384,160,480,160,576,154.7C672,149,768,139,864,117.3C960,96,1056,64,1152,58.7C1248,53,1344,75,1392,85.3L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z" />
-          </svg>
-        </div>
-
-        {/* Bottom half - wavy dark navy blue */}
-        <div className="absolute bottom-0 left-0 right-0 h-[110px] sm:h-1/2 bg-transparent" style={{ opacity: isMobileViewport ? 0.86 : 1, filter: isMobileViewport ? 'saturate(1.08) contrast(1.06)' : 'saturate(1.03) contrast(1.02)' }}>
-          <svg className="w-full h-full block" viewBox="0 0 1440 320" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill="#001f3f" d="M0,64L48,69.3C96,75,192,85,288,106.7C384,128,480,160,576,149.3C672,139,768,85,864,74.7C960,64,1056,96,1152,112C1248,128,1344,128,1392,128L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z" />
-          </svg>
-        </div>
-      </div>
-      {/* Product card: centered, use slide image as full background inside the rounded card and place hero text over it on the left */}
-      <div className="absolute inset-0 flex items-center justify-center px-2 sm:px-3 md:px-4">
-        <div
-          key={current}
-          className={`${isMobileViewport ? 'w-[92%] sm:w-[85%] max-w-[720px]' : 'w-full'} ${isMobileViewport ? 'h-[203px]' : 'h-[160px]'} sm:h-[220px] md:h-[62vh] rounded-xl sm:rounded-2xl shadow-lg md:shadow-2xl overflow-hidden relative border-2 sm:border-4 border-[#0ea5e9] bg-white p-[2px] sm:p-[4px] box-border`}
-          style={{ boxShadow: isMobileViewport ? '0 10px 30px rgba(2,6,23,0.08)' : undefined }}
-        >
-          {/* Inner container for overlays - respects the padding and rounded corners */}
-          <div 
-            className="absolute inset-0 overflow-hidden rounded-[calc(0.75rem-2px)] sm:rounded-[calc(1rem-4px)]"
-            style={{
-              backgroundImage: `url('${slides[current].image}')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-              backgroundColor: '#000', // fallback to avoid thin white/aliasing fringes at corners
-              boxShadow: isMobileViewport ? 'inset 0 0 0 6px rgba(255,255,255,0.05)' : 'inset 0 0 0 10px rgba(255,255,255,0.03)'
-            }}
+    <section className="relative w-full bg-blue-200 pt-[19px] pb-6 md:pt-[35px] md:pb-10 overflow-hidden">
+      {/* Slider Container */}
+      <div className="w-full px-4 md:px-6">
+        <div className="relative overflow-hidden rounded-3xl shadow-2xl bg-[url('/slider-bg.png')] bg-cover bg-center">
+          {/* Slider Track */}
+          <div
+            className="flex transition-transform duration-700 ease-in-out"
+            style={{ transform: `translateX(-${current * 100}%)` }}
           >
-            {/* Soft bluish tint overlay to add hue over the image (kept subtle) */}
-            <div className="absolute inset-0 pointer-events-none" style={{mixBlendMode: 'overlay', backgroundColor: 'rgba(96,165,250,0.06)'}}></div>
-            {/* Dark gradient overlay so text is readable and image appears only within the card */}
-            <div className={`absolute inset-0 ${isMobileViewport ? 'bg-gradient-to-r from-black/45 via-black/15 to-transparent' : 'bg-gradient-to-r from-black/75 via-black/40 to-transparent'}`}></div>
-          </div>
+            {Array.from({ length: numSlides }).map((_, index) => {
+              // Calculate indices for the pair
+              let leftIndex = index * 2;
+              let rightIndex = leftIndex + 1;
 
-          {/* Left content placed over the background image - increased safe padding and responsive scaling to avoid cropping */}
-          <div className="relative z-10 w-full h-full flex items-center">
-            {/* Add larger left padding so text never reaches curved edges; allow content to wrap and scale using clamp() */}
-            <div className={`w-full px-4 sm:px-6 md:px-8 lg:px-20 py-4 sm:py-5 md:py-6 box-border md:w-1/2 ${isMobileViewport ? 'text-center' : ''}`}>
-              <div className="text-turmeric-400 font-bold uppercase tracking-widest mb-2 sm:mb-3 md:mb-4 inline-block bg-black/30 px-2 sm:px-3 py-0.5 sm:py-1 rounded" style={{fontSize: isMobileViewport ? 'clamp(0.5rem, 1.8vw, 0.62rem)' : 'clamp(0.55rem, 1.2vw, 0.65rem)'}}>EST. 2016</div>
+              // Handle odd number of slides: overlap the last slide
+              if (rightIndex >= activeSlides.length && activeSlides.length > 1) {
+                leftIndex = activeSlides.length - 2;
+                rightIndex = activeSlides.length - 1;
+              } else if (activeSlides.length === 1) {
+                // Determine behavior for single image (duplicate it)
+                rightIndex = 0;
+              }
 
-              {/* Responsive heading: reduced sizes by 20% to avoid cropping; constrained maxWidth so it wraps before hitting rounded corners */}
-              <h1
-                style={{
-                  fontSize: isMobileViewport ? 'clamp(0.85rem, 3.5vw, 1.25rem)' : 'clamp(0.95rem, 2.5vw, 2.56rem)',
-                  lineHeight: isMobileViewport ? 1.05 : 1.03,
-                  wordBreak: 'break-word',
-                  maxWidth: isMobileViewport ? '95%' : '90%'
-                }}
-                className="text-white font-serif font-extrabold mt-2 sm:mt-3 md:mt-4 mb-2 sm:mb-3 md:mb-4"
-              >
-                {slides[current].title}
-              </h1>
+              const leftSlide = activeSlides[leftIndex];
+              const rightSlide = activeSlides[rightIndex] || activeSlides[0];
 
-              <p className="text-gray-300 max-w-2xl mb-3 sm:mb-4 md:mb-6 break-words" style={{fontSize: isMobileViewport ? 'clamp(0.6rem, 2.2vw, 0.85rem)' : 'clamp(0.7rem, 1.4vw, 0.95rem)'}}>{slides[current].subtitle}</p>
+              return (
+                <div key={index} className="flex-shrink-0 w-full">
+                  {/* Split Layout - Single column on mobile, two columns on desktop */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-0 min-h-[280px] md:min-h-[360px]">
 
-              <div className="flex gap-2 sm:gap-3 md:gap-4 flex-wrap items-center max-w-full" style={{overflow: 'visible'}}>
-                <button className={`bg-blue-600 hover:bg-blue-700 text-white ${isMobileViewport ? 'px-2 py-1' : 'px-2.5 sm:px-3 md:px-3 py-1 sm:py-1.5 md:py-1.5'} rounded-full font-semibold`} style={{fontSize: isMobileViewport ? 'clamp(0.6rem, 1.8vw, 0.72rem)' : 'clamp(0.65rem, 1vw, 0.85rem)'}}>Discover More</button>
-                <button className={`border border-white/30 text-white ${isMobileViewport ? 'px-2 py-1' : 'px-2 sm:px-2.5 md:px-2.5 py-1 sm:py-1.5 md:py-1.5'} rounded-full`} style={{fontSize: isMobileViewport ? 'clamp(0.6rem, 1.8vw, 0.72rem)' : 'clamp(0.65rem, 1vw, 0.85rem)'}}>Virtual Tour</button>
-              </div>
-            </div>
+                    {/* LEFT SIDE - Framed Image */}
+                    <div className="relative bg-transparent p-1.5 md:p-2 flex items-center justify-center">
+                      {/* Detailed Navy Blue Border Frame */}
+                      <div className="relative w-full aspect-[16/9] rounded-2xl p-[2px] bg-[#001f3f] shadow-2xl">
+                        {/* Inner White Border - Thinner for elegance */}
+                        <div className="w-full h-full bg-white rounded-2xl p-1.5">
+                          {/* Image Container */}
+                          <div className="relative w-full h-full rounded-xl overflow-hidden bg-gray-900 group">
+                            {/* Background Image */}
+                            <img
+                              src={leftSlide.image}
+                              alt={leftSlide.title}
+                              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* RIGHT SIDE - Framed Image - Hidden on mobile */}
+                    <div className="hidden md:block relative bg-transparent p-1.5 md:p-2 md:flex items-center justify-center">
+                      {/* Detailed Navy Blue Border Frame */}
+                      <div className="relative w-full aspect-[16/9] rounded-2xl p-[2px] bg-[#001f3f] shadow-2xl">
+                        {/* Inner White Border - Thinner for elegance */}
+                        <div className="w-full h-full bg-white rounded-2xl p-1.5">
+                          {/* Image Container */}
+                          <div className="w-full h-full rounded-xl overflow-hidden bg-gray-900">
+                            <img
+                              src={rightSlide.image}
+                              alt={rightSlide.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
-      </div>
 
-      {/* Side Navigation Arrows: REMOVED - Using dot indicators instead */}
-
-      {/* Dot Indicators - visible on all screens, prominent and interactive */}
-      <div className="absolute left-1/2 -translate-x-1/2 z-30 flex gap-2 sm:gap-2.5 md:gap-3 items-center justify-center" style={{ bottom: isMobileViewport ? '21px' : '20px' }}>
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrent(index)}
-            aria-label={`Go to slide ${index + 1}`}
-            className={`transition-all duration-300 rounded-full hover:opacity-100 ${
-              index === current
-                ? 'bg-white shadow-lg'
-                : 'bg-white/60 hover:bg-white/80'
-            }`}
-            style={{
-              width: index === current ? (isMobileViewport ? '29px' : 'clamp(24px, 4vw, 32px)') : (isMobileViewport ? '13px' : 'clamp(10px, 2vw, 14px)'),
-              height: index === current ? (isMobileViewport ? '16px' : 'clamp(10px, 1.5vw, 14px)') : (isMobileViewport ? '13px' : 'clamp(8px, 1.2vw, 10px)'),
-            }}
-          />
-        ))}
+        {/* Dot Indicators */}
+        <div className="absolute bottom-1 md:bottom-2 left-1/2 -translate-x-1/2 z-10 flex gap-3 items-center justify-center">
+          {Array.from({ length: Math.ceil(slides.slice(0, 10).length / 2) }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrent(index)}
+              aria-label={`Go to slide ${index + 1}`}
+              className={`transition-all duration-300 rounded-full ${index === current
+                ? 'bg-[#001f3f] shadow-lg w-12 h-3'
+                : 'bg-blue-600 hover:bg-blue-800 w-3 h-3'
+                }`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
